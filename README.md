@@ -1,5 +1,8 @@
 # rtt: RT-Thread lite version #
 
+Just keep it as simple as possible!
+no module, no component init, only support GCC
+
 RT-Thread is an open source real-time operating system for embedded devices from China, which has strong scalability: from a tiny kernel running on a tiny core, for example ARM Cortex-M0, or Cortex-M3/4/7, to a rich feature system running on ARM Cortex-A8, ARM Cortex-A9 DualCore etc.
 
 ## Overview ##
