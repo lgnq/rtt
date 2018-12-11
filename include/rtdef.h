@@ -326,7 +326,6 @@ typedef struct rt_object *rt_object_t;                  /**< Type for kernel obj
  *  - MemPool
  *  - Device
  *  - Timer
- *  - Module
  *  - Unknown
  *  - Static
  */
