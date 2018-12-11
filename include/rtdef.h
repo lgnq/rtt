@@ -99,12 +99,7 @@ typedef rt_base_t                       rt_off_t;       /**< Type for offset */
     #define ALIGN(n)                    __attribute__((aligned(n)))
     #define RT_WEAK                     __weak
     #define rt_inline                   static __inline
-    /* module compiling */
-    #ifdef RT_USING_MODULE
-        #define RTT_API                 __declspec(dllimport)
-    #else
-        #define RTT_API                 __declspec(dllexport)
-    #endif
+    #define RTT_API                 __declspec(dllexport)
 
 #elif defined (__IAR_SYSTEMS_ICC__)     /* for IAR Compiler */
     #include <stdarg.h>
@@ -314,10 +309,6 @@ struct rt_object
     char       name[RT_NAME_MAX];                       /**< name of kernel object */
     rt_uint8_t type;                                    /**< type of kernel object */
     rt_uint8_t flag;                                    /**< flag of kernel object */
-
-#ifdef RT_USING_MODULE
-    void      *module_id;                               /**< id of application module */
-#endif
     rt_list_t  list;                                    /**< list node of kernel object */
 };
 typedef struct rt_object *rt_object_t;                  /**< Type for kernel objects. */
@@ -367,9 +358,6 @@ enum rt_object_class_type
     RT_Object_Class_Device,                             /**< The object is a device */
 #endif
     RT_Object_Class_Timer,                              /**< The object is a timer. */
-#ifdef RT_USING_MODULE
-    RT_Object_Class_Module,                             /**< The object is a module. */
-#endif
     RT_Object_Class_Unknown,                            /**< The object is unknown. */
     RT_Object_Class_Static = 0x80                       /**< The object is a static object. */
 };
@@ -483,10 +471,6 @@ struct rt_thread
     char        name[RT_NAME_MAX];                      /**< the name of thread */
     rt_uint8_t  type;                                   /**< type of object */
     rt_uint8_t  flags;                                  /**< thread's flags */
-
-#ifdef RT_USING_MODULE
-    void       *module_id;                              /**< id of application module */
-#endif
 
     rt_list_t   list;                                   /**< the object list */
     rt_list_t   tlist;                                  /**< the thread list */
@@ -944,57 +928,6 @@ struct rt_device_graphic_ops
     void (*blit_line) (const char *pixel, int x, int y, rt_size_t size);
 };
 #define rt_graphix_ops(device)          ((struct rt_device_graphic_ops *)(device->user_data))
-
-/*@}*/
-#endif
-
-#ifdef RT_USING_MODULE
-/**
- * @addtogroup Module
- */
-
-/*@{*/
-
-/*
- * module system
- */
-
-#define RT_MODULE_FLAG_WITHENTRY        0x00            /**< with entry point */
-#define RT_MODULE_FLAG_WITHOUTENTRY     0x01            /**< without entry point */
-
-/**
- * Application Module structure
- */
-struct rt_module
-{
-    struct rt_object             parent;                /**< inherit from object */
-
-    rt_uint32_t                  vstart_addr;           /**< VMA base address for the
-                                                          first LOAD segment. */
-    rt_uint8_t                  *module_space;          /**< module memory space */
-
-    void                        *module_entry;          /**< the entry address of module */
-    rt_thread_t                  module_thread;         /**< the main thread of module */
-
-    rt_uint8_t                  *module_cmd_line;       /**< module command line */
-    rt_uint32_t                  module_cmd_size;       /**< the size of module command line */
-
-#ifdef RT_USING_SLAB
-    /* module memory allocator */
-    void                        *mem_list;              /**< module's free memory list */
-    void                        *page_array;            /**< module's using pages */
-    rt_uint32_t                  page_cnt;              /**< module's using pages count */
-#endif
-
-    rt_uint16_t                  nref;                  /**< reference count */
-
-    rt_uint16_t                  nsym;                  /**< number of symbol in the module */
-    struct rt_module_symtab     *symtab;                /**< module symbol table */
-
-    /* object in this module, module object is the last basic object type */
-    struct rt_object_information module_object[RT_Object_Class_Unknown];
-};
-typedef struct rt_module *rt_module_t;
 
 /*@}*/
 #endif

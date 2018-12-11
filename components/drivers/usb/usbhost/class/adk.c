@@ -50,12 +50,6 @@ rt_err_t rt_usbh_adk_set_string(const char* manufacturer, const char* model,
     return RT_EOK;
 }
 
-#ifdef RT_USING_MODULE
-#include <rtm.h>
-
-RTM_EXPORT(rt_usbh_adk_set_string);
-#endif
-
 /**
  * This function will do USB_REQ_GET_PROTOCOL request to set idle period to the usb adk device
  *

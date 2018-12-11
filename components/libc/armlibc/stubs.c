@@ -264,15 +264,11 @@ int remove(const char *filename)
 #endif
 }
 
-#if defined(RT_USING_FINSH) && defined(FINSH_USING_MSH) && defined(RT_USING_MODULE) && defined(RT_USING_DFS)
-/* use system(const char *string) implementation in the msh */
-#else
 int system(const char *string)
 {
     RT_ASSERT(0);
     for (;;);
 }
-#endif
 
 #ifdef __MICROLIB
 #include <stdio.h>

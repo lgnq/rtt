@@ -191,94 +191,6 @@ static cmd_function_t msh_get_cmd(char *cmd, int size)
     return cmd_func;
 }
 
-#if defined(RT_USING_MODULE) && defined(RT_USING_DFS)
-/* Return 0 on module executed. Other value indicate error.
- */
-int msh_exec_module(const char *cmd_line, int size)
-{
-    int ret;
-    int fd = -1;
-    char *pg_name;
-    int length, cmd_length = 0;
-
-    if (size == 0)
-        return -RT_ERROR;
-    /* get the length of command0 */
-    while ((cmd_line[cmd_length] != ' ' && cmd_line[cmd_length] != '\t') && cmd_length < size)
-        cmd_length ++;
-
-    /* get name length */
-    length = cmd_length + 32;
-
-    /* allocate program name memory */
-    pg_name = (char *) rt_malloc(length);
-    if (pg_name == RT_NULL)
-        return -RT_ENOMEM;
-
-    /* copy command0 */
-    memcpy(pg_name, cmd_line, cmd_length);
-    pg_name[cmd_length] = '\0';
-
-    if (strstr(pg_name, ".mo") != RT_NULL || strstr(pg_name, ".MO") != RT_NULL)
-    {
-        /* try to open program */
-        fd = open(pg_name, O_RDONLY, 0);
-
-        /* search in /bin path */
-        if (fd < 0)
-        {
-            rt_snprintf(pg_name, length - 1, "/bin/%.*s", cmd_length, cmd_line);
-            fd = open(pg_name, O_RDONLY, 0);
-        }
-    }
-    else
-    {
-        /* add .mo and open program */
-
-        /* try to open program */
-        strcat(pg_name, ".mo");
-        fd = open(pg_name, O_RDONLY, 0);
-
-        /* search in /bin path */
-        if (fd < 0)
-        {
-            rt_snprintf(pg_name, length - 1, "/bin/%.*s.mo", cmd_length, cmd_line);
-            fd = open(pg_name, O_RDONLY, 0);
-        }
-    }
-
-    if (fd >= 0)
-    {
-        /* found program */
-        close(fd);
-        rt_module_exec_cmd(pg_name, cmd_line, size);
-        ret = 0;
-    }
-    else
-    {
-        ret = -1;
-    }
-
-    rt_free(pg_name);
-    return ret;
-}
-
-int system(const char *command)
-{
-    int ret = -RT_ENOMEM;
-    char *cmd = rt_strdup(command);
-
-    if (cmd)
-    {
-        ret = msh_exec(cmd, rt_strlen(cmd));
-        rt_free(cmd);
-    }
-
-    return ret;
-}
-RTM_EXPORT(system);
-#endif
-
 static int _msh_exec_cmd(char *cmd, rt_size_t length, int *retp)
 {
     int argc;
@@ -333,12 +245,6 @@ int msh_exec(char *cmd, rt_size_t length)
     {
         return cmd_ret;
     }
-#ifdef RT_USING_MODULE
-    if (msh_exec_module(cmd, length) == 0)
-    {
-        return 0;
-    }
-#endif
 
 #if defined(RT_USING_DFS) && defined(DFS_USING_WORKDIR)
     if (msh_exec_script(cmd, length) == 0)
@@ -531,15 +437,6 @@ void msh_auto_complete(char *prefix)
 
             ptr --;
         }
-#ifdef RT_USING_MODULE
-        /* There is a chance that the user want to run the module directly. So
-         * try to complete the file names. If the completed path is not a
-         * module, the system won't crash anyway. */
-        if (ptr == prefix)
-        {
-            msh_auto_complete_path(ptr);
-        }
-#endif
     }
 #endif
 
