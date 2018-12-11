@@ -8,8 +8,6 @@ CPPPATH = [RTT_ROOT + '/include']
 if rtconfig.CROSS_TOOL == 'keil':
     # add more link flags for module and components_init.
     LINKFLAGS = ''
-    if GetDepend('RT_USING_MODULE'):
-        LINKFLAGS += ' --keep *.o(RTMSymTab) '
     if GetDepend('RT_USING_COMPONENTS_INIT'):
         LINKFLAGS += ' --keep *.o(.rti_fn.*) '
 else:
@@ -17,9 +15,6 @@ else:
 
 if GetDepend('RT_USING_COMPONENTS_INIT') == False:
     SrcRemove(src, ['components.c'])
-
-if GetDepend('RT_USING_MODULE') == False:
-    SrcRemove(src, ['module.c'])
 
 if GetDepend('RT_USING_HEAP') == False or GetDepend('RT_USING_SMALL_MEM') == False:
     SrcRemove(src, ['mem.c'])
