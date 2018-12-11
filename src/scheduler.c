@@ -372,7 +372,6 @@ void rt_enter_critical(void)
     /* enable interrupt */
     rt_hw_interrupt_enable(level);
 }
-RTM_EXPORT(rt_enter_critical);
 
 /**
  * This function will unlock the thread scheduler.
@@ -400,7 +399,6 @@ void rt_exit_critical(void)
         rt_hw_interrupt_enable(level);
     }
 }
-RTM_EXPORT(rt_exit_critical);
 
 /**
  * Get the scheduler lock level
@@ -411,6 +409,5 @@ rt_uint16_t rt_critical_level(void)
 {
     return rt_scheduler_lock_nest;
 }
-RTM_EXPORT(rt_critical_level);
 /**@}*/
 

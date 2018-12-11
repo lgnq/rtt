@@ -36,7 +36,6 @@
 #include <rtdebug.h>
 #include <rtdef.h>
 #include <rtservice.h>
-#include <rtm.h>
 
 #ifdef __cplusplus
 extern "C" {

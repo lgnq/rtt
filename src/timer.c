@@ -192,7 +192,6 @@ void rt_timer_init(rt_timer_t  timer,
 
     _rt_timer_init(timer, timeout, parameter, time, flag);
 }
-RTM_EXPORT(rt_timer_init);
 
 /**
  * This function will detach a timer from timer management.
@@ -220,7 +219,6 @@ rt_err_t rt_timer_detach(rt_timer_t timer)
 
     return -RT_EOK;
 }
-RTM_EXPORT(rt_timer_detach);
 
 #ifdef RT_USING_HEAP
 /**
@@ -253,7 +251,6 @@ rt_timer_t rt_timer_create(const char *name,
 
     return timer;
 }
-RTM_EXPORT(rt_timer_create);
 
 /**
  * This function will delete a timer and release timer memory
@@ -281,7 +278,6 @@ rt_err_t rt_timer_delete(rt_timer_t timer)
 
     return -RT_EOK;
 }
-RTM_EXPORT(rt_timer_delete);
 #endif
 
 /**
@@ -407,7 +403,6 @@ rt_err_t rt_timer_start(rt_timer_t timer)
 
     return -RT_EOK;
 }
-RTM_EXPORT(rt_timer_start);
 
 /**
  * This function will stop the timer
@@ -440,7 +435,6 @@ rt_err_t rt_timer_stop(rt_timer_t timer)
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_timer_stop);
 
 /**
  * This function will get or set some options of the timer
@@ -477,7 +471,6 @@ rt_err_t rt_timer_control(rt_timer_t timer, rt_uint8_t cmd, void *arg)
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_timer_control);
 
 /**
  * This function will check timer list, if a timeout event happens, the

@@ -70,10 +70,6 @@ struct rt_object_information rt_object_container[RT_Object_Class_Unknown] =
 #endif
     /* initialize object container - timer */
     {RT_Object_Class_Timer, _OBJ_CONTAINER_LIST_INIT(RT_Object_Class_Timer), sizeof(struct rt_timer)},
-#ifdef RT_USING_MODULE
-    /* initialize object container - module */
-    {RT_Object_Class_Module, _OBJ_CONTAINER_LIST_INIT(RT_Object_Class_Module), sizeof(struct rt_module)},
-#endif
 };
 
 #ifdef RT_USING_HOOK
@@ -191,7 +187,6 @@ rt_object_get_information(enum rt_object_class_type type)
 {
     return &rt_object_container[type];
 }
-RTM_EXPORT(rt_object_get_information);
 
 /**
  * This function will initialize an object and add it to object system

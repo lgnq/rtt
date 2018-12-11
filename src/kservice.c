@@ -73,7 +73,6 @@ rt_err_t rt_get_errno(void)
 
     return tid->error;
 }
-RTM_EXPORT(rt_get_errno);
 
 /*
  * This function will set errno
@@ -102,7 +101,6 @@ void rt_set_errno(rt_err_t error)
 
     tid->error = error;
 }
-RTM_EXPORT(rt_set_errno);
 
 /**
  * This function returns errno.
@@ -122,7 +120,6 @@ int *_rt_errno(void)
 
     return (int *)&_errno;
 }
-RTM_EXPORT(_rt_errno);
 
 /**
  * This function will set the content of memory to specified value
@@ -204,7 +201,6 @@ void *rt_memset(void *s, int c, rt_ubase_t count)
 #undef TOO_SMALL
 #endif
 }
-RTM_EXPORT(rt_memset);
 
 /**
  * This function will copy memory content from source address to destination
@@ -279,7 +275,6 @@ void *rt_memcpy(void *dst, const void *src, rt_ubase_t count)
 #undef TOO_SMALL
 #endif
 }
-RTM_EXPORT(rt_memcpy);
 
 /**
  * This function will move memory content from source address to destination
@@ -311,7 +306,6 @@ void *rt_memmove(void *dest, const void *src, rt_ubase_t n)
 
     return dest;
 }
-RTM_EXPORT(rt_memmove);
 
 /**
  * This function will compare two areas of memory
@@ -333,7 +327,6 @@ rt_int32_t rt_memcmp(const void *cs, const void *ct, rt_ubase_t count)
 
     return res;
 }
-RTM_EXPORT(rt_memcmp);
 
 /**
  * This function will return the first occurrence of a string.
@@ -361,7 +354,6 @@ char *rt_strstr(const char *s1, const char *s2)
 
     return RT_NULL;
 }
-RTM_EXPORT(rt_strstr);
 
 /**
  * This function will compare two strings while ignoring differences in case
@@ -388,7 +380,6 @@ rt_uint32_t rt_strcasecmp(const char *a, const char *b)
 
     return ca - cb;
 }
-RTM_EXPORT(rt_strcasecmp);
 
 /**
  * This function will copy string no more than n bytes.
@@ -420,7 +411,6 @@ char *rt_strncpy(char *dst, const char *src, rt_ubase_t n)
 
     return (dst);
 }
-RTM_EXPORT(rt_strncpy);
 
 /**
  * This function will compare two strings with specified maximum length
@@ -444,7 +434,6 @@ rt_int32_t rt_strncmp(const char *cs, const char *ct, rt_ubase_t count)
 
     return __res;
 }
-RTM_EXPORT(rt_strncmp);
 
 /**
  * This function will compare two strings without specified length
@@ -461,7 +450,7 @@ rt_int32_t rt_strcmp(const char *cs, const char *ct)
 
     return (*cs - *ct);
 }
-RTM_EXPORT(rt_strcmp);
+
 /**
  * The  strnlen()  function  returns the number of characters in the
  * string pointed to by s, excluding the terminating null byte ('\0'),
@@ -482,6 +471,7 @@ rt_size_t rt_strnlen(const char *s, rt_ubase_t maxlen)
 
     return sc - s;
 }
+
 /**
  * This function will return the length of a string, which terminate will
  * null character.
@@ -499,7 +489,6 @@ rt_size_t rt_strlen(const char *s)
 
     return sc - s;
 }
-RTM_EXPORT(rt_strlen);
 
 #ifdef RT_USING_HEAP
 /**
@@ -521,7 +510,6 @@ char *rt_strdup(const char *s)
 
     return tmp;
 }
-RTM_EXPORT(rt_strdup);
 #endif
 
 /**
@@ -535,7 +523,6 @@ void rt_show_version(void)
                RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
     rt_kprintf(" 2006 - 2017 Copyright by rt-thread team\n");
 }
-RTM_EXPORT(rt_show_version);
 
 /* private function */
 #define isdigit(c)  ((unsigned)((c) - '0') < 10)
@@ -997,7 +984,6 @@ rt_int32_t rt_vsnprintf(char       *buf,
     */
     return str - buf;
 }
-RTM_EXPORT(rt_vsnprintf);
 
 /**
  * This function will fill a formatted string to buffer
@@ -1017,7 +1003,6 @@ rt_int32_t rt_snprintf(char *buf, rt_size_t size, const char *fmt, ...)
 
     return n;
 }
-RTM_EXPORT(rt_snprintf);
 
 /**
  * This function will fill a formatted string to buffer
@@ -1030,7 +1015,6 @@ rt_int32_t rt_vsprintf(char *buf, const char *format, va_list arg_ptr)
 {
     return rt_vsnprintf(buf, (rt_size_t) - 1, format, arg_ptr);
 }
-RTM_EXPORT(rt_vsprintf);
 
 /**
  * This function will fill a formatted string to buffer
@@ -1049,7 +1033,6 @@ rt_int32_t rt_sprintf(char *buf, const char *format, ...)
 
     return n;
 }
-RTM_EXPORT(rt_sprintf);
 
 #ifdef RT_USING_CONSOLE
 
@@ -1063,7 +1046,6 @@ rt_device_t rt_console_get_device(void)
 {
     return _console_device;
 }
-RTM_EXPORT(rt_console_get_device);
 
 /**
  * This function will set a device as console device.
@@ -1098,14 +1080,12 @@ rt_device_t rt_console_set_device(const char *name)
 
     return old;
 }
-RTM_EXPORT(rt_console_set_device);
 #endif
 
 RT_WEAK void rt_hw_console_output(const char *str)
 {
     /* empty console output */
 }
-RTM_EXPORT(rt_hw_console_output);
 
 /**
  * This function will put string to the console.
@@ -1170,7 +1150,6 @@ void rt_kprintf(const char *fmt, ...)
 #endif
     va_end(args);
 }
-RTM_EXPORT(rt_kprintf);
 #endif
 
 #ifdef RT_USING_HEAP
@@ -1216,7 +1195,6 @@ void *rt_malloc_align(rt_size_t size, rt_size_t align)
 
     return ptr;
 }
-RTM_EXPORT(rt_malloc_align);
 
 /**
  * This function release the memory block, which is allocated by
@@ -1231,7 +1209,6 @@ void rt_free_align(void *ptr)
     real_ptr = (void *) * (rt_uint32_t *)((rt_uint32_t)ptr - sizeof(void *));
     rt_free(real_ptr);
 }
-RTM_EXPORT(rt_free_align);
 #endif
 
 #ifndef RT_USING_CPU_FFS
@@ -1329,7 +1306,6 @@ void rt_assert_handler(const char *ex_string, const char *func, rt_size_t line)
         rt_assert_hook(ex_string, func, line);
     }
 }
-RTM_EXPORT(rt_assert_handler);
 #endif /* RT_DEBUG */
 
 #if !defined (RT_USING_NEWLIB) && defined (RT_USING_MINILIBC) && defined (__GNUC__)

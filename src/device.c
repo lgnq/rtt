@@ -58,7 +58,6 @@ rt_err_t rt_device_register(rt_device_t dev,
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_device_register);
 
 /**
  * This function removes a previously registered device driver
@@ -75,7 +74,6 @@ rt_err_t rt_device_unregister(rt_device_t dev)
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_device_unregister);
 
 /**
  * This function initializes all registered device driver
@@ -133,7 +131,6 @@ rt_device_t rt_device_find(const char *name)
     /* not found */
     return RT_NULL;
 }
-RTM_EXPORT(rt_device_find);
 
 /**
  * This function will initialize the specified device
@@ -227,7 +224,6 @@ rt_err_t rt_device_open(rt_device_t dev, rt_uint16_t oflag)
 
     return result;
 }
-RTM_EXPORT(rt_device_open);
 
 /**
  * This function will close a device
@@ -262,7 +258,6 @@ rt_err_t rt_device_close(rt_device_t dev)
 
     return result;
 }
-RTM_EXPORT(rt_device_close);
 
 /**
  * This function will read some data from a device.
@@ -300,7 +295,6 @@ rt_size_t rt_device_read(rt_device_t dev,
 
     return 0;
 }
-RTM_EXPORT(rt_device_read);
 
 /**
  * This function will write some data to a device.
@@ -338,7 +332,6 @@ rt_size_t rt_device_write(rt_device_t dev,
 
     return 0;
 }
-RTM_EXPORT(rt_device_write);
 
 /**
  * This function will perform a variety of control functions on devices.
@@ -361,7 +354,6 @@ rt_err_t rt_device_control(rt_device_t dev, rt_uint8_t cmd, void *arg)
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_device_control);
 
 /**
  * This function will set the reception indication callback function. This callback function
@@ -382,7 +374,6 @@ rt_device_set_rx_indicate(rt_device_t dev,
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_device_set_rx_indicate);
 
 /**
  * This function will set the indication callback function when device has
@@ -403,6 +394,5 @@ rt_device_set_tx_complete(rt_device_t dev,
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_device_set_tx_complete);
 
 #endif

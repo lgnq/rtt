@@ -129,7 +129,6 @@ rt_err_t rt_memheap_init(struct rt_memheap *memheap,
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_memheap_init);
 
 rt_err_t rt_memheap_detach(struct rt_memheap *heap)
 {
@@ -141,7 +140,6 @@ rt_err_t rt_memheap_detach(struct rt_memheap *heap)
     /* Return a successful completion. */
     return RT_EOK;
 }
-RTM_EXPORT(rt_memheap_detach);
 
 void *rt_memheap_alloc(struct rt_memheap *heap, rt_uint32_t size)
 {
@@ -286,7 +284,6 @@ void *rt_memheap_alloc(struct rt_memheap *heap, rt_uint32_t size)
     /* Return the completion status.  */
     return RT_NULL;
 }
-RTM_EXPORT(rt_memheap_alloc);
 
 void *rt_memheap_realloc(struct rt_memheap *heap, void *ptr, rt_size_t newsize)
 {
@@ -494,7 +491,6 @@ void *rt_memheap_realloc(struct rt_memheap *heap, void *ptr, rt_size_t newsize)
     /* return the old memory block */
     return ptr;
 }
-RTM_EXPORT(rt_memheap_realloc);
 
 void rt_memheap_free(void *ptr)
 {
@@ -594,7 +590,6 @@ void rt_memheap_free(void *ptr)
     /* release lock */
     rt_sem_release(&(heap->lock));
 }
-RTM_EXPORT(rt_memheap_free);
 
 #ifdef RT_USING_MEMHEAP_AS_HEAP
 static struct rt_memheap _heap;
@@ -643,13 +638,11 @@ void *rt_malloc(rt_size_t size)
 
     return ptr;
 }
-RTM_EXPORT(rt_malloc);
 
 void rt_free(void *rmem)
 {
     rt_memheap_free(rmem);
 }
-RTM_EXPORT(rt_free);
 
 void *rt_realloc(void *rmem, rt_size_t newsize)
 {
@@ -683,7 +676,6 @@ void *rt_realloc(void *rmem, rt_size_t newsize)
 
     return new_ptr;
 }
-RTM_EXPORT(rt_realloc);
 
 void *rt_calloc(rt_size_t count, rt_size_t size)
 {
@@ -700,7 +692,6 @@ void *rt_calloc(rt_size_t count, rt_size_t size)
 
     return ptr;
 }
-RTM_EXPORT(rt_calloc);
 
 #endif
 

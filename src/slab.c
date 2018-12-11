@@ -93,7 +93,6 @@ void rt_malloc_sethook(void (*hook)(void *ptr, rt_size_t size))
 {
     rt_malloc_hook = hook;
 }
-RTM_EXPORT(rt_malloc_sethook);
 
 /**
  * This function will set a hook function, which will be invoked when a memory
@@ -105,7 +104,6 @@ void rt_free_sethook(void (*hook)(void *ptr))
 {
     rt_free_hook = hook;
 }
-RTM_EXPORT(rt_free_sethook);
 
 /**@}*/
 
@@ -682,7 +680,6 @@ fail:
 
     return RT_NULL;
 }
-RTM_EXPORT(rt_malloc);
 
 /**
  * This function will change the size of previously allocated memory block.
@@ -755,7 +752,6 @@ void *rt_realloc(void *ptr, rt_size_t size)
 
     return RT_NULL;
 }
-RTM_EXPORT(rt_realloc);
 
 /**
  * This function will contiguously allocate enough space for count objects
@@ -782,7 +778,6 @@ void *rt_calloc(rt_size_t count, rt_size_t size)
 
     return p;
 }
-RTM_EXPORT(rt_calloc);
 
 /**
  * This function will release the previous allocated memory block by rt_malloc.
@@ -933,7 +928,6 @@ void rt_free(void *ptr)
     /* unlock heap */
     rt_sem_release(&heap_sem);
 }
-RTM_EXPORT(rt_free);
 
 #ifdef RT_MEM_STATS
 void rt_memory_info(rt_uint32_t *total,
