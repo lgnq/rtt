@@ -60,7 +60,6 @@ rt_data_queue_init(struct rt_data_queue *queue,
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_data_queue_init);
 
 rt_err_t rt_data_queue_push(struct rt_data_queue *queue,
                             const void *data_ptr,
@@ -149,7 +148,6 @@ __exit:
 
     return result;
 }
-RTM_EXPORT(rt_data_queue_push);
 
 rt_err_t rt_data_queue_pop(struct rt_data_queue *queue,
                            const void** data_ptr,
@@ -251,7 +249,6 @@ __exit:
 
     return result;
 }
-RTM_EXPORT(rt_data_queue_pop);
 
 rt_err_t rt_data_queue_peak(struct rt_data_queue *queue,
                             const void** data_ptr,
@@ -277,7 +274,6 @@ rt_err_t rt_data_queue_peak(struct rt_data_queue *queue,
 
     return RT_EOK;
 }
-RTM_EXPORT(rt_data_queue_peak);
 
 void rt_data_queue_reset(struct rt_data_queue *queue)
 {
@@ -338,4 +334,3 @@ void rt_data_queue_reset(struct rt_data_queue *queue)
 
     rt_schedule();
 }
-RTM_EXPORT(rt_data_queue_reset);

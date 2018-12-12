@@ -42,7 +42,6 @@ void rt_ringbuffer_init(struct rt_ringbuffer *rb,
     rb->buffer_ptr = pool;
     rb->buffer_size = RT_ALIGN_DOWN(size, RT_ALIGN_SIZE);
 }
-RTM_EXPORT(rt_ringbuffer_init);
 
 /**
  * put a block of data into ring buffer
@@ -89,7 +88,6 @@ rt_size_t rt_ringbuffer_put(struct rt_ringbuffer *rb,
 
     return length;
 }
-RTM_EXPORT(rt_ringbuffer_put);
 
 /**
  * put a block of data into ring buffer
@@ -142,7 +140,6 @@ rt_size_t rt_ringbuffer_put_force(struct rt_ringbuffer *rb,
 
     return length;
 }
-RTM_EXPORT(rt_ringbuffer_put_force);
 
 /**
  *  get data from ring buffer
@@ -189,7 +186,6 @@ rt_size_t rt_ringbuffer_get(struct rt_ringbuffer *rb,
 
     return length;
 }
-RTM_EXPORT(rt_ringbuffer_get);
 
 /**
  * put a character into ring buffer
@@ -217,7 +213,6 @@ rt_size_t rt_ringbuffer_putchar(struct rt_ringbuffer *rb, const rt_uint8_t ch)
 
     return 1;
 }
-RTM_EXPORT(rt_ringbuffer_putchar);
 
 /**
  * put a character into ring buffer
@@ -254,7 +249,6 @@ rt_size_t rt_ringbuffer_putchar_force(struct rt_ringbuffer *rb, const rt_uint8_t
 
     return 1;
 }
-RTM_EXPORT(rt_ringbuffer_putchar_force);
 
 /**
  * get a character from a ringbuffer
@@ -282,5 +276,4 @@ rt_size_t rt_ringbuffer_getchar(struct rt_ringbuffer *rb, rt_uint8_t *ch)
 
     return 1;
 }
-RTM_EXPORT(rt_ringbuffer_getchar);
 

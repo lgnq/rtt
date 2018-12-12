@@ -210,7 +210,6 @@ rt_err_t rt_portal_init(struct rt_portal_device *portal,
                               portal_name,
                               RT_DEVICE_FLAG_RDWR);
 }
-RTM_EXPORT(rt_portal_init);
 
 /**
  * This function will detach a portal device from resource management
@@ -223,7 +222,6 @@ rt_err_t rt_portal_detach(struct rt_portal_device *portal)
 {
     return rt_device_unregister(&portal->parent);
 }
-RTM_EXPORT(rt_portal_detach);
 
 #ifdef RT_USING_HEAP
 rt_err_t rt_portal_create(const char *name,
@@ -238,7 +236,6 @@ rt_err_t rt_portal_create(const char *name,
 
     return rt_portal_init(portal, name, write_dev, read_dev);
 }
-RTM_EXPORT(rt_portal_create);
 
 void rt_portal_destroy(struct rt_portal_device *portal)
 {
@@ -251,6 +248,5 @@ void rt_portal_destroy(struct rt_portal_device *portal)
 
     return;
 }
-RTM_EXPORT(rt_portal_destroy);
 #endif /* RT_USING_HEAP */
 

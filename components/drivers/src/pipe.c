@@ -236,7 +236,6 @@ rt_err_t rt_pipe_init(struct rt_pipe_device *pipe,
 
     return rt_device_register(&(pipe->parent), name, RT_DEVICE_FLAG_RDWR);
 }
-RTM_EXPORT(rt_pipe_init);
 
 /**
  * This function will detach a pipe device from resource management
@@ -249,7 +248,6 @@ rt_err_t rt_pipe_detach(struct rt_pipe_device *pipe)
 {
     return rt_device_unregister(&pipe->parent);
 }
-RTM_EXPORT(rt_pipe_detach);
 
 #ifdef RT_USING_HEAP
 rt_err_t rt_pipe_create(const char *name, enum rt_pipe_flag flag, rt_size_t size)
@@ -273,7 +271,6 @@ rt_err_t rt_pipe_create(const char *name, enum rt_pipe_flag flag, rt_size_t size
 
     return rt_pipe_init(pipe, name, flag, rb_memptr, size);
 }
-RTM_EXPORT(rt_pipe_create);
 
 void rt_pipe_destroy(struct rt_pipe_device *pipe)
 {
@@ -289,5 +286,4 @@ void rt_pipe_destroy(struct rt_pipe_device *pipe)
 
     return;
 }
-RTM_EXPORT(rt_pipe_destroy);
 #endif /* RT_USING_HEAP */
