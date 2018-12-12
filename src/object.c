@@ -30,8 +30,8 @@
 #include <rtthread.h>
 #include <rthw.h>
 
-#define _OBJ_CONTAINER_LIST_INIT(c)     \
-    {&(rt_object_container[c].object_list), &(rt_object_container[c].object_list)}
+#define _OBJ_CONTAINER_LIST_INIT(c)     {&(rt_object_container[c].object_list), &(rt_object_container[c].object_list)}
+
 struct rt_object_information rt_object_container[RT_Object_Class_Unknown] =
 {
     /* initialize object container - thread */
@@ -182,8 +182,7 @@ void rt_system_object_init(void)
  * @param type the type of object
  * @return the object type information or RT_NULL
  */
-struct rt_object_information *
-rt_object_get_information(enum rt_object_class_type type)
+struct rt_object_information *rt_object_get_information(enum rt_object_class_type type)
 {
     return &rt_object_container[type];
 }
@@ -196,9 +195,7 @@ rt_object_get_information(enum rt_object_class_type type)
  * @param type the object type.
  * @param name the object name. In system, the object's name must be unique.
  */
-void rt_object_init(struct rt_object         *object,
-                    enum rt_object_class_type type,
-                    const char               *name)
+void rt_object_init(struct rt_object *object, enum rt_object_class_type type, const char *name)
 {
     register rt_base_t temp;
     struct rt_object_information *information;
@@ -382,10 +379,10 @@ rt_object_t rt_object_find(const char *name, rt_uint8_t type)
     rt_enter_critical();
 
     /* try to find object */
-    if (information == RT_NULL) information = &rt_object_container[type];
-    for (node  = information->object_list.next;
-         node != &(information->object_list);
-         node  = node->next)
+    if (information == RT_NULL) 
+        information = &rt_object_container[type];
+
+    for (node = information->object_list.next; node != &(information->object_list); node = node->next)
     {
         object = rt_list_entry(node, struct rt_object, list);
         if (rt_strncmp(object->name, name, RT_NAME_MAX) == 0)
