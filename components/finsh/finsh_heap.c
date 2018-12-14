@@ -79,7 +79,10 @@ void* finsh_heap_allocate(size_t size)
     /* find the first fit block */
     for (header = free_list;
         ((header != NULL) && (header->length <= size + sizeof(struct finsh_block_header)));
-        header = header->next) ;
+        header = header->next) 
+    {
+        ;
+    }
 
 	if (header == NULL)
 	{
