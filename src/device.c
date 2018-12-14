@@ -41,9 +41,7 @@
  *
  * @return the error code, RT_EOK on initialization successfully.
  */
-rt_err_t rt_device_register(rt_device_t dev,
-                            const char *name,
-                            rt_uint16_t flags)
+rt_err_t rt_device_register(rt_device_t dev, const char *name, rt_uint16_t flags)
 {
     if (dev == RT_NULL)
         return -RT_ERROR;
@@ -109,9 +107,7 @@ rt_device_t rt_device_find(const char *name)
 
     /* try to find device object */
     information = &rt_object_container[RT_Object_Class_Device];
-    for (node  = information->object_list.next;
-         node != &(information->object_list);
-         node  = node->next)
+    for (node  = information->object_list.next; node != &(information->object_list); node  = node->next)
     {
         object = rt_list_entry(node, struct rt_object, list);
         if (rt_strncmp(object->name, name, RT_NAME_MAX) == 0)
@@ -153,8 +149,7 @@ rt_err_t rt_device_init(rt_device_t dev)
             result = dev->init(dev);
             if (result != RT_EOK)
             {
-                rt_kprintf("To initialize device:%s failed. The error code is %d\n",
-                           dev->parent.name, result);
+                rt_kprintf("To initialize device:%s failed. The error code is %d\n", dev->parent.name, result);
             }
             else
             {
@@ -188,8 +183,7 @@ rt_err_t rt_device_open(rt_device_t dev, rt_uint16_t oflag)
             result = dev->init(dev);
             if (result != RT_EOK)
             {
-                rt_kprintf("To initialize device:%s failed. The error code is %d\n",
-                           dev->parent.name, result);
+                rt_kprintf("To initialize device:%s failed. The error code is %d\n", dev->parent.name, result);
 
                 return result;
             }
@@ -199,8 +193,7 @@ rt_err_t rt_device_open(rt_device_t dev, rt_uint16_t oflag)
     }
 
     /* device is a stand alone device and opened */
-    if ((dev->flag & RT_DEVICE_FLAG_STANDALONE) &&
-        (dev->open_flag & RT_DEVICE_OFLAG_OPEN))
+    if ((dev->flag & RT_DEVICE_FLAG_STANDALONE) && (dev->open_flag & RT_DEVICE_OFLAG_OPEN))
     {
         return -RT_EBUSY;
     }
@@ -271,10 +264,7 @@ rt_err_t rt_device_close(rt_device_t dev)
  *
  * @note since 0.4.0, the unit of size/pos is a block for block device.
  */
-rt_size_t rt_device_read(rt_device_t dev,
-                         rt_off_t    pos,
-                         void       *buffer,
-                         rt_size_t   size)
+rt_size_t rt_device_read(rt_device_t dev, rt_off_t pos, void *buffer, rt_size_t size)
 {
     RT_ASSERT(dev != RT_NULL);
 
@@ -308,10 +298,7 @@ rt_size_t rt_device_read(rt_device_t dev,
  *
  * @note since 0.4.0, the unit of size/pos is a block for block device.
  */
-rt_size_t rt_device_write(rt_device_t dev,
-                          rt_off_t    pos,
-                          const void *buffer,
-                          rt_size_t   size)
+rt_size_t rt_device_write(rt_device_t dev, rt_off_t pos, const void *buffer, rt_size_t size)
 {
     RT_ASSERT(dev != RT_NULL);
 
@@ -364,9 +351,7 @@ rt_err_t rt_device_control(rt_device_t dev, rt_uint8_t cmd, void *arg)
  *
  * @return RT_EOK
  */
-rt_err_t
-rt_device_set_rx_indicate(rt_device_t dev,
-                          rt_err_t (*rx_ind)(rt_device_t dev, rt_size_t size))
+rt_err_t rt_device_set_rx_indicate(rt_device_t dev, rt_err_t (*rx_ind)(rt_device_t dev, rt_size_t size))
 {
     RT_ASSERT(dev != RT_NULL);
 
@@ -384,9 +369,7 @@ rt_device_set_rx_indicate(rt_device_t dev,
  *
  * @return RT_EOK
  */
-rt_err_t
-rt_device_set_tx_complete(rt_device_t dev,
-                          rt_err_t (*tx_done)(rt_device_t dev, void *buffer))
+rt_err_t rt_device_set_tx_complete(rt_device_t dev, rt_err_t (*tx_done)(rt_device_t dev, void *buffer))
 {
     RT_ASSERT(dev != RT_NULL);
 

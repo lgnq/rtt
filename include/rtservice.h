@@ -110,8 +110,7 @@ rt_inline int rt_list_isempty(const rt_list_t *l)
  * @param type the type of structure
  * @param member the name of list in structure
  */
-#define rt_list_entry(node, type, member) \
-    ((type *)((char *)(node) - (unsigned long)(&((type *)0)->member)))
+#define rt_list_entry(node, type, member) ((type *)((char *)(node) - (unsigned long)(&((type *)0)->member)))
 
 /**
  * rt_list_for_each_entry  -   iterate over list of given type
@@ -132,8 +131,7 @@ rt_inline int rt_list_isempty(const rt_list_t *l)
  *
  * Note, that list is expected to be not empty.
  */
-#define rt_list_first_entry(ptr, type, member) \
-    rt_list_entry((ptr)->next, type, member)
+#define rt_list_first_entry(ptr, type, member) rt_list_entry((ptr)->next, type, member)
 /*@}*/
 
 #ifdef __cplusplus
