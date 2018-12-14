@@ -48,7 +48,6 @@
  * 2013-09-14     Grissiom     add an option check in rt_event_recv
  */
 
-#include <rtthread.h>
 #include <rthw.h>
 
 #ifdef RT_USING_HOOK

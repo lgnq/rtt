@@ -32,7 +32,6 @@
  *                             timeout function.
  */
 
-#include <rtthread.h>
 #include <rthw.h>
 
 /* hard timer list */

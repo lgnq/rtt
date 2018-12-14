@@ -37,7 +37,6 @@
  * 2013-12-21     Grissiom     add rt_critical_level
  */
 
-#include <rtthread.h>
 #include <rthw.h>
 
 static rt_int16_t rt_scheduler_lock_nest;

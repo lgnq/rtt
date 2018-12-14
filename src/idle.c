@@ -28,7 +28,6 @@
  */
 
 #include <rthw.h>
-#include <rtthread.h>
 
 #if defined (RT_USING_HOOK)
 #ifndef RT_USING_IDLE_HOOK

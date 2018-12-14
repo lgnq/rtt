@@ -30,7 +30,6 @@
  */
 
 #include <rthw.h>
-#include <rtthread.h>
 
 #ifdef RT_USING_MEMHEAP
 

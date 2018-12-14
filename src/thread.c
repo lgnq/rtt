@@ -40,7 +40,6 @@
                                bug when thread has not startup.
  */
 
-#include <rtthread.h>
 #include <rthw.h>
 
 extern rt_list_t rt_thread_priority_table[RT_THREAD_PRIORITY_MAX];
