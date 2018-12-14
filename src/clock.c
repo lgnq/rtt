@@ -29,7 +29,6 @@
  */
 
 #include <rthw.h>
-#include <rtthread.h>
 
 static rt_tick_t rt_tick = 0;
 
