@@ -110,8 +110,7 @@ void rt_thread_exit(void)
     /* remove it from timer list */
     rt_timer_detach(&thread->thread_timer);
 
-    if ((rt_object_is_systemobject((rt_object_t)thread) == RT_TRUE) &&
-        thread->cleanup == RT_NULL)
+    if ((rt_object_is_systemobject((rt_object_t)thread) == RT_TRUE) && thread->cleanup == RT_NULL)
     {
         rt_object_detach((rt_object_t)thread);
     }
@@ -149,9 +148,7 @@ static rt_err_t _rt_thread_init(struct rt_thread *thread,
 
     /* init thread stack */
     rt_memset(thread->stack_addr, '#', thread->stack_size);
-    thread->sp = (void *)rt_hw_stack_init(thread->entry, thread->parameter,
-                                          (void *)((char *)thread->stack_addr + thread->stack_size - 4),
-                                          (void *)rt_thread_exit);
+    thread->sp = (void *)rt_hw_stack_init(thread->entry, thread->parameter, (void *)((char *)thread->stack_addr + thread->stack_size - 4), (void *)rt_thread_exit);
 
     /* priority init */
     RT_ASSERT(priority < RT_THREAD_PRIORITY_MAX);
@@ -159,6 +156,7 @@ static rt_err_t _rt_thread_init(struct rt_thread *thread,
     thread->current_priority = priority;
 
     thread->number_mask = 0;
+
 #if RT_THREAD_PRIORITY_MAX > 32
     thread->number = 0;
     thread->high_mask = 0;
@@ -177,12 +175,7 @@ static rt_err_t _rt_thread_init(struct rt_thread *thread,
     thread->user_data = 0;
 
     /* init thread timer */
-    rt_timer_init(&(thread->thread_timer),
-                  thread->name,
-                  rt_thread_timeout,
-                  thread,
-                  0,
-                  RT_TIMER_FLAG_ONE_SHOT);
+    rt_timer_init(&(thread->thread_timer), thread->name, rt_thread_timeout, thread, 0, RT_TIMER_FLAG_ONE_SHOT);
 
     RT_OBJECT_HOOK_CALL(rt_thread_inited_hook, (thread));
 
@@ -226,14 +219,7 @@ rt_err_t rt_thread_init(struct rt_thread *thread,
     /* init thread object */
     rt_object_init((rt_object_t)thread, RT_Object_Class_Thread, name);
 
-    return _rt_thread_init(thread,
-                           name,
-                           entry,
-                           parameter,
-                           stack_start,
-                           stack_size,
-                           priority,
-                           tick);
+    return _rt_thread_init(thread, name, entry, parameter, stack_start, stack_size, priority, tick);
 }
 
 /**
@@ -271,8 +257,7 @@ rt_err_t rt_thread_startup(rt_thread_t thread)
     thread->number_mask = 1L << thread->current_priority;
 #endif
 
-    RT_DEBUG_LOG(RT_DEBUG_THREAD, ("startup a thread:%s with priority:%d\n",
-                                   thread->name, thread->init_priority));
+    RT_DEBUG_LOG(RT_DEBUG_THREAD, ("startup a thread:%s with priority:%d\n", thread->name, thread->init_priority));
     /* change thread stat */
     thread->stat = RT_THREAD_SUSPEND;
     /* then resume it */
@@ -355,8 +340,7 @@ rt_thread_t rt_thread_create(const char *name,
     struct rt_thread *thread;
     void *stack_start;
 
-    thread = (struct rt_thread *)rt_object_allocate(RT_Object_Class_Thread,
-                                                    name);
+    thread = (struct rt_thread *)rt_object_allocate(RT_Object_Class_Thread, name);
     if (thread == RT_NULL)
         return RT_NULL;
 
@@ -369,14 +353,7 @@ rt_thread_t rt_thread_create(const char *name,
         return RT_NULL;
     }
 
-    _rt_thread_init(thread,
-                    name,
-                    entry,
-                    parameter,
-                    stack_start,
-                    stack_size,
-                    priority,
-                    tick);
+    _rt_thread_init(thread, name, entry, parameter, stack_start, stack_size, priority, tick);
 
     return thread;
 }
@@ -447,8 +424,7 @@ rt_err_t rt_thread_yield(void)
         rt_list_remove(&(thread->tlist));
 
         /* put thread to end of ready queue */
-        rt_list_insert_before(&(rt_thread_priority_table[thread->current_priority]),
-                              &(thread->tlist));
+        rt_list_insert_before(&(rt_thread_priority_table[thread->current_priority]), &(thread->tlist));
 
         /* enable interrupt */
         rt_hw_interrupt_enable(level);
@@ -613,8 +589,7 @@ rt_err_t rt_thread_suspend(rt_thread_t thread)
 
     if (thread->stat != RT_THREAD_READY)
     {
-        RT_DEBUG_LOG(RT_DEBUG_THREAD, ("thread suspend: thread disorder, %d\n",
-                                       thread->stat));
+        RT_DEBUG_LOG(RT_DEBUG_THREAD, ("thread suspend: thread disorder, %d\n", thread->stat));
 
         return -RT_ERROR;
     }
@@ -654,8 +629,7 @@ rt_err_t rt_thread_resume(rt_thread_t thread)
 
     if (thread->stat != RT_THREAD_SUSPEND)
     {
-        RT_DEBUG_LOG(RT_DEBUG_THREAD, ("thread resume: thread disorder, %d\n",
-                                       thread->stat));
+        RT_DEBUG_LOG(RT_DEBUG_THREAD, ("thread resume: thread disorder, %d\n", thread->stat));
 
         return -RT_ERROR;
     }
@@ -730,9 +704,7 @@ rt_thread_t rt_thread_find(char *name)
 
     /* try to find device object */
     information = &rt_object_container[RT_Object_Class_Thread];
-    for (node  = information->object_list.next;
-         node != &(information->object_list);
-         node  = node->next)
+    for (node  = information->object_list.next; node != &(information->object_list); node  = node->next)
     {
         object = rt_list_entry(node, struct rt_object, list);
         if (rt_strncmp(object->name, name, RT_NAME_MAX) == 0)
