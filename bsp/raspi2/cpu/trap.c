@@ -12,13 +12,14 @@
  * 2013-07-20     Bernard      first version
  */
 
-#include <rthw.h>
 #include <board.h>
 #include <rtthread.h>
 
 #include "armv7.h"
 
+extern rt_ubase_t __rt_ffs(rt_ubase_t value);
 extern struct rt_thread *rt_current_thread;
+
 #ifdef RT_USING_FINSH
 extern long list_thread(void);
 #endif

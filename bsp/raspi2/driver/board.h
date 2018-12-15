@@ -26,8 +26,7 @@
 #define BOARD_H__
 
 #include <stdint.h>
-
-#include <rthw.h>
+#include <rtthread.h>
 #include <bcm283x.h>
 
 extern unsigned char __bss_start;

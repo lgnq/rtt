@@ -12,7 +12,6 @@
  * 2018/5/3       Bernard      first version
  */
 
-#include <rthw.h>
 #include <rtthread.h>
 
 #include "cp15.h"
@@ -51,7 +50,8 @@ void rt_hw_interrupt_init(void)
     for (index = 0; index < MAX_HANDLERS; index ++)
     {
         isr_table[index].handler = default_isr_handler;
-        isr_table[index].param = NULL;
+        isr_table[index].param = RT_NULL;
+
 #ifdef RT_USING_INTERRUPT_INFO
         rt_strncpy(isr_table[index].name, "unknown", RT_NAME_MAX);
         isr_table[index].counter = 0;
@@ -113,8 +113,7 @@ void rt_hw_interrupt_umask(int vector)
  * @param new_handler the interrupt service routine to be installed
  * @param old_handler the old interrupt service routine
  */
-rt_isr_handler_t rt_hw_interrupt_install(int vector, rt_isr_handler_t handler,
-        void *param, const char *name)
+rt_isr_handler_t rt_hw_interrupt_install(int vector, rt_isr_handler_t handler, void *param, const char *name)
 {
     rt_isr_handler_t old_handler = RT_NULL;
 

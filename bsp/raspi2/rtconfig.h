@@ -64,8 +64,8 @@
 
 /* RT-Thread Components */
 
-#define RT_USING_COMPONENTS_INIT
-#define RT_USING_USER_MAIN
+// #define RT_USING_COMPONENTS_INIT
+// #define RT_USING_USER_MAIN
 #define RT_MAIN_THREAD_STACK_SIZE 2048
 #define RT_MAIN_THREAD_PRIORITY 10
 
@@ -75,9 +75,9 @@
 
 /* Command shell */
 
-#define RT_USING_FINSH
+// #define RT_USING_FINSH
 #define FINSH_THREAD_NAME "tshell"
-#define FINSH_USING_HISTORY
+#define FINSH_USING_HISTORY 1
 #define FINSH_HISTORY_LINES 5
 #define FINSH_USING_SYMTAB
 #define FINSH_USING_DESCRIPTION

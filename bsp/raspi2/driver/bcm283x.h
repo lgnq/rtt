@@ -1,7 +1,18 @@
 #ifndef BCM283X_H__
 #define BCM283X_H__
 
-#include <rthw.h>
+/*
+ * Some macros define
+ */
+#ifndef HWREG32
+#define HWREG32(x)          (*((volatile rt_uint32_t *)(x)))
+#endif
+#ifndef HWREG16
+#define HWREG16(x)          (*((volatile rt_uint16_t *)(x)))
+#endif
+#ifndef HWREG8
+#define HWREG8(x)           (*((volatile rt_uint8_t *)(x)))
+#endif
 
 #define PER_BASE    		(0x3F000000)
 #define PER_BASE_40000000 	(0x40000000)

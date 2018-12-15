@@ -12,7 +12,6 @@
  * 2011-09-15     Bernard      first version
  */
 
-#include <rthw.h>
 #include <rtthread.h>
 #include <board.h>
 

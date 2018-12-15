@@ -21,7 +21,6 @@
  * Date           Author       Notes
  */
 
-#include <rthw.h>
 #include <rtthread.h>
 
 #include "board.h"
