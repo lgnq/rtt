@@ -22,10 +22,6 @@
  * 2017-5-30      Bernard      the first version
  */
 
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include <rtthread.h>
 
 #include "board.h"
@@ -62,7 +58,7 @@ void rt_init_thread_entry(void* parameter)
 #endif
 }
 
-int rt_application_init()
+int rt_application_init(void)
 {
     rt_thread_t tid;
 
