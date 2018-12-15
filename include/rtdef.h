@@ -54,8 +54,7 @@ extern "C" {
 #define RT_REVISION                     0L              /**< revise version number */
 
 /* RT-Thread version */
-#define RTTHREAD_VERSION                ((RT_VERSION * 10000) + \
-                                         (RT_SUBVERSION * 100) + RT_REVISION)
+#define RTTHREAD_VERSION                ((RT_VERSION * 10000) + (RT_SUBVERSION * 100) + RT_REVISION)
 
 /* RT-Thread basic data type definitions */
 typedef signed   char                   rt_int8_t;      /**<  8bit integer type */
@@ -99,7 +98,7 @@ typedef rt_base_t                       rt_off_t;       /**< Type for offset */
     #define ALIGN(n)                    __attribute__((aligned(n)))
     #define RT_WEAK                     __weak
     #define rt_inline                   static __inline
-    #define RTT_API                 __declspec(dllexport)
+    #define RTT_API                     __declspec(dllexport)
 
 #elif defined (__IAR_SYSTEMS_ICC__)     /* for IAR Compiler */
     #include <stdarg.h>
@@ -117,11 +116,11 @@ typedef rt_base_t                       rt_off_t;       /**< Type for offset */
         #include <stdarg.h>
     #else
         /* the version of GNU GCC must be greater than 4.x */
-        typedef __builtin_va_list   __gnuc_va_list;
-        typedef __gnuc_va_list      va_list;
-        #define va_start(v,l)       __builtin_va_start(v,l)
-        #define va_end(v)           __builtin_va_end(v)
-        #define va_arg(v,l)         __builtin_va_arg(v,l)
+        typedef __builtin_va_list       __gnuc_va_list;
+        typedef __gnuc_va_list          va_list;
+        #define va_start(v,l)           __builtin_va_start(v,l)
+        #define va_end(v)               __builtin_va_end(v)
+        #define va_arg(v,l)             __builtin_va_arg(v,l)
     #endif
 
     #define SECTION(x)                  __attribute__((section(x)))
@@ -406,7 +405,7 @@ struct rt_object_information
 #define RT_TIMER_CTRL_SET_PERIODIC      0x3             /**< change timer to periodic */
 
 #ifndef RT_TIMER_SKIP_LIST_LEVEL
-#define RT_TIMER_SKIP_LIST_LEVEL          1
+#define RT_TIMER_SKIP_LIST_LEVEL        1
 #endif
 
 /* 1 or 3 */
