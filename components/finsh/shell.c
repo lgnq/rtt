@@ -36,8 +36,6 @@
  * 2016-11-26     armink       add password authentication
  */
 
-#include <rthw.h>
-
 #include "finsh.h"
 #include "shell.h"
 

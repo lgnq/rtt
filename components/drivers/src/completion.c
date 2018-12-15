@@ -22,7 +22,6 @@
  * 2012-09-30     Bernard      first version.
  */
 
-#include <rthw.h>
 #include <rtthread.h>
 #include <rtdevice.h>
 

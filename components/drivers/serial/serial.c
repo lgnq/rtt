@@ -34,7 +34,6 @@
  * 2017-01-19     aubr.cool    prevent change serial rx bufsz when serial is opened.
  */
 
-#include <rthw.h>
 #include <rtthread.h>
 #include <rtdevice.h>
 

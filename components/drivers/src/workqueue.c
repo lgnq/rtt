@@ -22,7 +22,6 @@
  * 2017-02-27     bernard      fix the re-work issue.
  */
 
-#include <rthw.h>
 #include <rtthread.h>
 #include <rtdevice.h>
 

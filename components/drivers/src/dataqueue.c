@@ -25,7 +25,6 @@
 
 #include <rtthread.h>
 #include <rtdevice.h>
-#include <rthw.h>
 
 struct rt_data_item
 {
