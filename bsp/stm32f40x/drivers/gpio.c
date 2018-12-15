@@ -12,7 +12,6 @@
  * 2015-01-05     Bernard      the first version
  */
 
-#include <rthw.h>
 #include <rtdevice.h>
 #include <board.h>
 

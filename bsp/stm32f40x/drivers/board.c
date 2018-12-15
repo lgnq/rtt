@@ -12,7 +12,6 @@
  * 2009-01-05     Bernard      first implementation
  */
 
-#include <rthw.h>
 #include <rtthread.h>
 
 #include "stm32f4xx.h"

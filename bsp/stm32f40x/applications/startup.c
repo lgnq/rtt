@@ -13,7 +13,6 @@
  * 2011-06-05     Bernard      modify for STM32F107 version
  */
 
-#include <rthw.h>
 #include <rtthread.h>
 
 #include "stm32f4xx.h"
