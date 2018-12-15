@@ -75,7 +75,7 @@
 
 /* Command shell */
 
-// #define RT_USING_FINSH
+#define RT_USING_FINSH
 #define FINSH_THREAD_NAME "tshell"
 #define FINSH_USING_HISTORY 1
 #define FINSH_HISTORY_LINES 5

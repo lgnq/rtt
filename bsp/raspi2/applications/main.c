@@ -76,6 +76,11 @@ int rt_application_init()
     return 0;
 }
 
+#ifdef RT_USING_FINSH
+extern int finsh_system_init(void);
+extern void finsh_set_device(const char* device);
+#endif
+
 /**
  * This function will startup RT-Thread RTOS.
  */
