@@ -74,8 +74,7 @@ static void (*rt_scheduler_hook)(struct rt_thread *from, struct rt_thread *to);
  *
  * @param hook the hook function
  */
-void
-rt_scheduler_sethook(void (*hook)(struct rt_thread *from, struct rt_thread *to))
+void rt_scheduler_sethook(void (*hook)(struct rt_thread *from, struct rt_thread *to))
 {
     rt_scheduler_hook = hook;
 }
@@ -88,10 +87,7 @@ static void _rt_scheduler_stack_check(struct rt_thread *thread)
 {
     RT_ASSERT(thread != RT_NULL);
 
-    if (*((rt_uint8_t *)thread->stack_addr) != '#' ||
-        (rt_uint32_t)thread->sp <= (rt_uint32_t)thread->stack_addr ||
-        (rt_uint32_t)thread->sp >
-        (rt_uint32_t)thread->stack_addr + (rt_uint32_t)thread->stack_size)
+    if (*((rt_uint8_t *)thread->stack_addr) != '#' || (rt_uint32_t)thread->sp <= (rt_uint32_t)thread->stack_addr || (rt_uint32_t)thread->sp > (rt_uint32_t)thread->stack_addr + (rt_uint32_t)thread->stack_size)
     {
         rt_uint32_t level;
 
@@ -103,12 +99,12 @@ static void _rt_scheduler_stack_check(struct rt_thread *thread)
         }
 #endif
         level = rt_hw_interrupt_disable();
-        while (level);
+        while (level)
+            ;
     }
     else if ((rt_uint32_t)thread->sp <= ((rt_uint32_t)thread->stack_addr + 32))
     {
-        rt_kprintf("warning: %s stack is close to end of stack address.\n",
-                   thread->name);
+        rt_kprintf("warning: %s stack is close to end of stack address.\n", thread->name);
     }
 }
 #endif
@@ -123,8 +119,7 @@ void rt_system_scheduler_init(void)
 
     rt_scheduler_lock_nest = 0;
 
-    RT_DEBUG_LOG(RT_DEBUG_SCHEDULER, ("start scheduler: max priority 0x%02x\n",
-                                      RT_THREAD_PRIORITY_MAX));
+    RT_DEBUG_LOG(RT_DEBUG_SCHEDULER, ("start scheduler: max priority 0x%02x\n", RT_THREAD_PRIORITY_MAX));
 
     for (offset = 0; offset < RT_THREAD_PRIORITY_MAX; offset ++)
     {
@@ -166,9 +161,7 @@ void rt_system_scheduler_start(void)
 #endif
 
     /* get switch to thread */
-    to_thread = rt_list_entry(rt_thread_priority_table[highest_ready_priority].next,
-                              struct rt_thread,
-                              tlist);
+    to_thread = rt_list_entry(rt_thread_priority_table[highest_ready_priority].next, struct rt_thread, tlist);
 
     rt_current_thread = to_thread;
 
@@ -212,9 +205,7 @@ void rt_schedule(void)
 #endif
 
         /* get switch to thread */
-        to_thread = rt_list_entry(rt_thread_priority_table[highest_ready_priority].next,
-                                  struct rt_thread,
-                                  tlist);
+        to_thread = rt_list_entry(rt_thread_priority_table[highest_ready_priority].next, struct rt_thread, tlist);
 
         /* if the destination thread is not the same as current thread */
         if (to_thread != rt_current_thread)
@@ -247,8 +238,7 @@ void rt_schedule(void)
             {
                 RT_DEBUG_LOG(RT_DEBUG_SCHEDULER, ("switch in interrupt\n"));
 
-                rt_hw_context_switch_interrupt((rt_uint32_t)&from_thread->sp,
-                                               (rt_uint32_t)&to_thread->sp);
+                rt_hw_context_switch_interrupt((rt_uint32_t)&from_thread->sp, (rt_uint32_t)&to_thread->sp);
             }
         }
     }
@@ -277,13 +267,11 @@ void rt_schedule_insert_thread(struct rt_thread *thread)
     thread->stat = RT_THREAD_READY;
 
     /* insert thread to ready list */
-    rt_list_insert_before(&(rt_thread_priority_table[thread->current_priority]),
-                          &(thread->tlist));
+    rt_list_insert_before(&(rt_thread_priority_table[thread->current_priority]), &(thread->tlist));
 
     /* set priority mask */
 #if RT_THREAD_PRIORITY_MAX <= 32
-    RT_DEBUG_LOG(RT_DEBUG_SCHEDULER, ("insert thread[%.*s], the priority: %d\n",
-                                      RT_NAME_MAX, thread->name, thread->current_priority));
+    RT_DEBUG_LOG(RT_DEBUG_SCHEDULER, ("insert thread[%.*s], the priority: %d\n", RT_NAME_MAX, thread->name, thread->current_priority));
 #else
     RT_DEBUG_LOG(RT_DEBUG_SCHEDULER,
                  ("insert thread[%.*s], the priority: %d 0x%x %d\n",
@@ -320,9 +308,7 @@ void rt_schedule_remove_thread(struct rt_thread *thread)
     temp = rt_hw_interrupt_disable();
 
 #if RT_THREAD_PRIORITY_MAX <= 32
-    RT_DEBUG_LOG(RT_DEBUG_SCHEDULER, ("remove thread[%.*s], the priority: %d\n",
-                                      RT_NAME_MAX, thread->name,
-                                      thread->current_priority));
+    RT_DEBUG_LOG(RT_DEBUG_SCHEDULER, ("remove thread[%.*s], the priority: %d\n", RT_NAME_MAX, thread->name, thread->current_priority));
 #else
     RT_DEBUG_LOG(RT_DEBUG_SCHEDULER,
                  ("remove thread[%.*s], the priority: %d 0x%x %d\n",
