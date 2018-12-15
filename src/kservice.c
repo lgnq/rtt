@@ -33,7 +33,7 @@
  * 2015-07-06     Bernard      Add rt_assert_handler routine.
  */
 
-#include <rthw.h>
+#include <rtthread.h>
 
 /* use precision */
 #define RT_PRINTF_PRECISION

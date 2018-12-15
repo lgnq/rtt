@@ -27,7 +27,7 @@
  * 2010-10-26     yi.qiu       add module support in rt_object_allocate and rt_object_free
  */
 
-#include <rthw.h>
+#include <rtthread.h>
 
 #define _OBJ_CONTAINER_LIST_INIT(c)     {&(rt_object_container[c].object_list), &(rt_object_container[c].object_list)}
 

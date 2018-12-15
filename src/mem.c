@@ -60,7 +60,7 @@
  *
  */
 
-#include <rthw.h>
+#include <rtthread.h>
 
 #ifndef RT_USING_MEMHEAP_AS_HEAP
 

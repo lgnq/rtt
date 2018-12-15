@@ -30,7 +30,7 @@
  * 2012-03-22     Bernard      fix align issue in rt_mp_init and rt_mp_create.
  */
 
-#include <rthw.h>
+#include <rtthread.h>
 
 #ifdef RT_USING_MEMPOOL
 

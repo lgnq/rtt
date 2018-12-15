@@ -27,7 +27,7 @@
  * 2016-08-09     ArdaFu       add method to get the handler of the idle thread.
  */
 
-#include <rthw.h>
+#include <rtthread.h>
 
 #if defined (RT_USING_HOOK)
 #ifndef RT_USING_IDLE_HOOK
