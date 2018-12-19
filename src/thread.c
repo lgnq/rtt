@@ -42,9 +42,9 @@
 
 #include <rtthread.h>
 
-extern rt_list_t rt_thread_priority_table[RT_THREAD_PRIORITY_MAX];
 extern rt_thread_t rt_current_thread;
-extern rt_list_t rt_thread_defunct;
+extern rt_list_t   rt_thread_defunct;
+extern rt_list_t   rt_thread_priority_table[RT_THREAD_PRIORITY_MAX];
 
 #ifdef RT_USING_HOOK
 
