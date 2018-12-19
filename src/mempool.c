@@ -126,8 +126,7 @@ rt_err_t rt_mp_init(struct rt_mempool *mp,
             (rt_uint8_t *)(block_ptr + (offset + 1) * (block_size + sizeof(rt_uint8_t *)));
     }
 
-    *(rt_uint8_t **)(block_ptr + (offset - 1) * (block_size + sizeof(rt_uint8_t *))) =
-        RT_NULL;
+    *(rt_uint8_t **)(block_ptr + (offset - 1) * (block_size + sizeof(rt_uint8_t *))) = RT_NULL;
 
     mp->block_list = block_ptr;
 
@@ -191,9 +190,7 @@ rt_err_t rt_mp_detach(struct rt_mempool *mp)
  *
  * @return the created mempool object
  */
-rt_mp_t rt_mp_create(const char *name,
-                     rt_size_t   block_count,
-                     rt_size_t   block_size)
+rt_mp_t rt_mp_create(const char *name, rt_size_t block_count, rt_size_t block_size)
 {
     rt_uint8_t *block_ptr;
     struct rt_mempool *mp;
@@ -213,8 +210,7 @@ rt_mp_t rt_mp_create(const char *name,
     mp->size       = (block_size + sizeof(rt_uint8_t *)) * block_count;
 
     /* allocate memory */
-    mp->start_address = rt_malloc((block_size + sizeof(rt_uint8_t *)) *
-                                  block_count);
+    mp->start_address = rt_malloc((block_size + sizeof(rt_uint8_t *)) * block_count);
     if (mp->start_address == RT_NULL)
     {
         /* no memory, delete memory pool object */
@@ -238,8 +234,7 @@ rt_mp_t rt_mp_create(const char *name,
             = block_ptr + (offset + 1) * (block_size + sizeof(rt_uint8_t *));
     }
 
-    *(rt_uint8_t **)(block_ptr + (offset - 1) * (block_size + sizeof(rt_uint8_t *)))
-        = RT_NULL;
+    *(rt_uint8_t **)(block_ptr + (offset - 1) * (block_size + sizeof(rt_uint8_t *))) = RT_NULL;
 
     mp->block_list = block_ptr;
 
@@ -347,9 +342,7 @@ void *rt_mp_alloc(rt_mp_t mp, rt_int32_t time)
             before_sleep = rt_tick_get();
 
             /* init thread timer and start it */
-            rt_timer_control(&(thread->thread_timer),
-                             RT_TIMER_CTRL_SET_TIME,
-                             &time);
+            rt_timer_control(&(thread->thread_timer), RT_TIMER_CTRL_SET_TIME, &time);
             rt_timer_start(&(thread->thread_timer));
         }
 
@@ -388,8 +381,7 @@ void *rt_mp_alloc(rt_mp_t mp, rt_int32_t time)
     /* enable interrupt */
     rt_hw_interrupt_enable(level);
 
-    RT_OBJECT_HOOK_CALL(rt_mp_alloc_hook,
-                        (mp, (rt_uint8_t *)(block_ptr + sizeof(rt_uint8_t *))));
+    RT_OBJECT_HOOK_CALL(rt_mp_alloc_hook, (mp, (rt_uint8_t *)(block_ptr + sizeof(rt_uint8_t *))));
 
     return (rt_uint8_t *)(block_ptr + sizeof(rt_uint8_t *));
 }
@@ -425,9 +417,7 @@ void rt_mp_free(void *block)
     if (mp->suspend_thread_count > 0)
     {
         /* get the suspended thread */
-        thread = rt_list_entry(mp->suspend_thread.next,
-                               struct rt_thread,
-                               tlist);
+        thread = rt_list_entry(mp->suspend_thread.next, struct rt_thread, tlist);
 
         /* set error */
         thread->error = RT_EOK;
