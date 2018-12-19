@@ -56,10 +56,7 @@
  * The length of Used Memory Block Tailer is 0,
  * which is prevents block merging across list
  */
-rt_err_t rt_memheap_init(struct rt_memheap *memheap,
-                         const char        *name,
-                         void              *start_addr,
-                         rt_uint32_t        size)
+rt_err_t rt_memheap_init(struct rt_memheap *memheap, const char *name, void *start_addr, rt_uint32_t size)
 {
     struct rt_memheap_item *item;
 
@@ -94,8 +91,7 @@ rt_err_t rt_memheap_init(struct rt_memheap *memheap,
     item->next_free = item;
     item->prev_free = item;
 
-    item->next = (struct rt_memheap_item *)
-                 ((rt_uint8_t *)item + memheap->available_size + RT_MEMHEAP_SIZE);
+    item->next = (struct rt_memheap_item *)((rt_uint8_t *)item + memheap->available_size + RT_MEMHEAP_SIZE);
     item->prev = item->next;
 
     /* block list header */
@@ -153,8 +149,7 @@ void *rt_memheap_alloc(struct rt_memheap *heap, rt_uint32_t size)
     if (size < RT_MEMHEAP_MINIALLOC)
         size = RT_MEMHEAP_MINIALLOC;
 
-    RT_DEBUG_LOG(RT_DEBUG_MEMHEAP, ("allocate %d on heap:%8.*s",
-                                    size, RT_NAME_MAX, heap->parent.name));
+    RT_DEBUG_LOG(RT_DEBUG_MEMHEAP, ("allocate %d on heap:%8.*s", size, RT_NAME_MAX, heap->parent.name));
 
     if (size < heap->available_size)
     {
@@ -194,8 +189,7 @@ void *rt_memheap_alloc(struct rt_memheap *heap, rt_uint32_t size)
                 struct rt_memheap_item *new_ptr;
 
                 /* split the block. */
-                new_ptr = (struct rt_memheap_item *)
-                          (((rt_uint8_t *)header_ptr) + size + RT_MEMHEAP_SIZE);
+                new_ptr = (struct rt_memheap_item *)(((rt_uint8_t *)header_ptr) + size + RT_MEMHEAP_SIZE);
 
                 RT_DEBUG_LOG(RT_DEBUG_MEMHEAP,
                              ("split: block[0x%08x] nextm[0x%08x] prevm[0x%08x] to new[0x%08x]\n",
@@ -232,9 +226,7 @@ void *rt_memheap_alloc(struct rt_memheap *heap, rt_uint32_t size)
                                                 new_ptr->prev_free));
 
                 /* decrement the available byte count.  */
-                heap->available_size = heap->available_size -
-                                       size -
-                                       RT_MEMHEAP_SIZE;
+                heap->available_size = heap->available_size - size - RT_MEMHEAP_SIZE;
                 if (heap->pool_size - heap->available_size > heap->max_used_size)
                     heap->max_used_size = heap->pool_size - heap->available_size;
             }
@@ -308,8 +300,7 @@ void *rt_memheap_realloc(struct rt_memheap *heap, void *ptr, rt_size_t newsize)
     }
 
     /* get memory block header and get the size of memory block */
-    header_ptr = (struct rt_memheap_item *)
-                 ((rt_uint8_t *)ptr - RT_MEMHEAP_SIZE);
+    header_ptr = (struct rt_memheap_item *)((rt_uint8_t *)ptr - RT_MEMHEAP_SIZE);
     oldsize = MEMITEM_SIZE(header_ptr);
     /* re-allocate memory */
     if (newsize > oldsize)
@@ -381,8 +372,8 @@ void *rt_memheap_realloc(struct rt_memheap *heap, void *ptr, rt_size_t newsize)
                 /* put the pool pointer into the new block. */
                 next_ptr->pool_ptr = heap;
 
-                next_ptr->prev          = header_ptr;
-                next_ptr->next          = header_ptr->next;
+                next_ptr->prev         = header_ptr;
+                next_ptr->next         = header_ptr->next;
                 header_ptr->next->prev = next_ptr;
                 header_ptr->next       = next_ptr;
 
@@ -430,8 +421,7 @@ void *rt_memheap_realloc(struct rt_memheap *heap, void *ptr, rt_size_t newsize)
     }
 
     /* split the block. */
-    new_ptr = (struct rt_memheap_item *)
-              (((rt_uint8_t *)header_ptr) + newsize + RT_MEMHEAP_SIZE);
+    new_ptr = (struct rt_memheap_item *)(((rt_uint8_t *)header_ptr) + newsize + RT_MEMHEAP_SIZE);
 
     RT_DEBUG_LOG(RT_DEBUG_MEMHEAP,
                  ("split: block[0x%08x] nextm[0x%08x] prevm[0x%08x] to new[0x%08x]\n",
@@ -499,7 +489,8 @@ void rt_memheap_free(void *ptr)
     rt_uint32_t insert_header;
 
     /* NULL check */
-    if (ptr == RT_NULL) return;
+    if (ptr == RT_NULL) 
+        return;
 
     /* set initial status as OK */
     insert_header = 1;
@@ -507,8 +498,7 @@ void rt_memheap_free(void *ptr)
     header_ptr    = (struct rt_memheap_item *)
                     ((rt_uint8_t *)ptr - RT_MEMHEAP_SIZE);
 
-    RT_DEBUG_LOG(RT_DEBUG_MEMHEAP, ("free memory: memory[0x%08x], block[0x%08x]\n",
-                                    ptr, header_ptr));
+    RT_DEBUG_LOG(RT_DEBUG_MEMHEAP, ("free memory: memory[0x%08x], block[0x%08x]\n", ptr, header_ptr));
 
     /* check magic */
     RT_ASSERT((header_ptr->magic & RT_MEMHEAP_MASK) == RT_MEMHEAP_MAGIC);
@@ -536,8 +526,7 @@ void rt_memheap_free(void *ptr)
     /* Determine if the block can be merged with the previous neighbor. */
     if (!RT_MEMHEAP_IS_USED(header_ptr->prev))
     {
-        RT_DEBUG_LOG(RT_DEBUG_MEMHEAP, ("merge: left node 0x%08x\n",
-                                        header_ptr->prev));
+        RT_DEBUG_LOG(RT_DEBUG_MEMHEAP, ("merge: left node 0x%08x\n", header_ptr->prev));
 
         /* adjust the available number of bytes. */
         heap->available_size = heap->available_size + RT_MEMHEAP_SIZE;
@@ -596,10 +585,7 @@ static struct rt_memheap _heap;
 void rt_system_heap_init(void *begin_addr, void *end_addr)
 {
     /* initialize a default heap in the system */
-    rt_memheap_init(&_heap,
-                    "heap",
-                    begin_addr,
-                    (rt_uint32_t)end_addr - (rt_uint32_t)begin_addr);
+    rt_memheap_init(&_heap, "heap", begin_addr, (rt_uint32_t)end_addr - (rt_uint32_t)begin_addr);
 }
 
 void *rt_malloc(rt_size_t size)
@@ -618,9 +604,7 @@ void *rt_malloc(rt_size_t size)
 
         /* try to allocate on other memory heap */
         information = &rt_object_container[RT_Object_Class_MemHeap];
-        for (node  = information->object_list.next;
-             node != &(information->object_list);
-             node  = node->next)
+        for (node  = information->object_list.next; node != &(information->object_list); node  = node->next)
         {
             object = rt_list_entry(node, struct rt_object, list);
             heap   = (struct rt_memheap *)object;
@@ -652,8 +636,7 @@ void *rt_realloc(void *rmem, rt_size_t newsize)
         return rt_malloc(newsize);
 
     /* get old memory item */
-    header_ptr = (struct rt_memheap_item *)
-                 ((rt_uint8_t *)rmem - RT_MEMHEAP_SIZE);
+    header_ptr = (struct rt_memheap_item *)((rt_uint8_t *)rmem - RT_MEMHEAP_SIZE);
 
     new_ptr = rt_memheap_realloc(header_ptr->pool_ptr, rmem, newsize);
     if (new_ptr == RT_NULL && newsize != 0)
