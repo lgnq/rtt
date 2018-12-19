@@ -54,8 +54,8 @@ static rt_uint8_t timer_thread_stack[RT_TIMER_THREAD_STACK_SIZE];
 #endif
 
 #ifdef RT_USING_HOOK
-extern void (*rt_object_take_hook)(struct rt_object *object);
-extern void (*rt_object_put_hook)(struct rt_object *object);
+extern void (*rt_object_take_hook)(rt_object_t object);
+extern void (*rt_object_put_hook)(rt_object_t object);
 static void (*rt_timer_timeout_hook)(rt_timer_t timer);
 
 /**
