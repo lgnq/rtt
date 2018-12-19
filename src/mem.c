@@ -144,9 +144,7 @@ static void plug_holes(struct heap_mem *mem)
 
     /* plug hole forward */
     nmem = (struct heap_mem *)&heap_ptr[mem->next];
-    if (mem != nmem &&
-        nmem->used == 0 &&
-        (rt_uint8_t *)nmem != (rt_uint8_t *)heap_end)
+    if (mem != nmem && nmem->used == 0 && (rt_uint8_t *)nmem != (rt_uint8_t *)heap_end)
     {
         /* if mem->next is unused and not end of heap_ptr,
          * combine mem and mem->next
@@ -190,16 +188,14 @@ void rt_system_heap_init(void *begin_addr, void *end_addr)
     RT_DEBUG_NOT_IN_INTERRUPT;
 
     /* alignment addr */
-    if ((end_align > (2 * SIZEOF_STRUCT_MEM)) &&
-        ((end_align - 2 * SIZEOF_STRUCT_MEM) >= begin_align))
+    if ((end_align > (2 * SIZEOF_STRUCT_MEM)) && ((end_align - 2 * SIZEOF_STRUCT_MEM) >= begin_align))
     {
         /* calculate the aligned memory size */
         mem_size_aligned = end_align - begin_align - 2 * SIZEOF_STRUCT_MEM;
     }
     else
     {
-        rt_kprintf("mem init, error begin address 0x%x, and end address 0x%x\n",
-                   (rt_uint32_t)begin_addr, (rt_uint32_t)end_addr);
+        rt_kprintf("mem init, error begin address 0x%x, and end address 0x%x\n", (rt_uint32_t)begin_addr, (rt_uint32_t)end_addr);
 
         return;
     }
@@ -207,8 +203,7 @@ void rt_system_heap_init(void *begin_addr, void *end_addr)
     /* point to begin address of heap */
     heap_ptr = (rt_uint8_t *)begin_align;
 
-    RT_DEBUG_LOG(RT_DEBUG_MEM, ("mem init, heap begin address 0x%x, size %d\n",
-                                (rt_uint32_t)heap_ptr, mem_size_aligned));
+    RT_DEBUG_LOG(RT_DEBUG_MEM, ("mem init, heap begin address 0x%x, size %d\n", (rt_uint32_t)heap_ptr, mem_size_aligned));
 
     /* initialize the start of the heap */
     mem        = (struct heap_mem *)heap_ptr;
@@ -254,8 +249,7 @@ void *rt_malloc(rt_size_t size)
         return RT_NULL;
 
     if (size != RT_ALIGN(size, RT_ALIGN_SIZE))
-        RT_DEBUG_LOG(RT_DEBUG_MEM, ("malloc size %d, but align to %d\n",
-                                    size, RT_ALIGN(size, RT_ALIGN_SIZE)));
+        RT_DEBUG_LOG(RT_DEBUG_MEM, ("malloc size %d, but align to %d\n", size, RT_ALIGN(size, RT_ALIGN_SIZE)));
     else
         RT_DEBUG_LOG(RT_DEBUG_MEM, ("malloc size %d\n", size));
 
@@ -276,9 +270,7 @@ void *rt_malloc(rt_size_t size)
     /* take memory semaphore */
     rt_sem_take(&heap_sem, RT_WAITING_FOREVER);
 
-    for (ptr = (rt_uint8_t *)lfree - heap_ptr;
-         ptr < mem_size_aligned - size;
-         ptr = ((struct heap_mem *)&heap_ptr[ptr])->next)
+    for (ptr = (rt_uint8_t *)lfree - heap_ptr; ptr < mem_size_aligned - size; ptr = ((struct heap_mem *)&heap_ptr[ptr])->next)
     {
         mem = (struct heap_mem *)&heap_ptr[ptr];
 
@@ -287,8 +279,7 @@ void *rt_malloc(rt_size_t size)
             /* mem is not used and at least perfect fit is possible:
              * mem->next - (ptr + SIZEOF_STRUCT_MEM) gives us the 'user data size' of mem */
 
-            if (mem->next - (ptr + SIZEOF_STRUCT_MEM) >=
-                (size + SIZEOF_STRUCT_MEM + MIN_SIZE_ALIGNED))
+            if (mem->next - (ptr + SIZEOF_STRUCT_MEM) >= (size + SIZEOF_STRUCT_MEM + MIN_SIZE_ALIGNED))
             {
                 /* (in addition to the above, we test if another struct heap_mem (SIZEOF_STRUCT_MEM) containing
                  * at least MIN_SIZE_ALIGNED of data also fits in the 'user data space' of 'mem')
@@ -303,11 +294,11 @@ void *rt_malloc(rt_size_t size)
                 ptr2 = ptr + SIZEOF_STRUCT_MEM + size;
 
                 /* create mem2 struct */
-                mem2       = (struct heap_mem *)&heap_ptr[ptr2];
+                mem2        = (struct heap_mem *)&heap_ptr[ptr2];
                 mem2->magic = HEAP_MAGIC;
-                mem2->used = 0;
-                mem2->next = mem->next;
-                mem2->prev = ptr;
+                mem2->used  = 0;
+                mem2->next  = mem->next;
+                mem2->prev  = ptr;
 
                 /* and insert it between mem and mem->next */
                 mem->next = ptr2;
@@ -361,8 +352,7 @@ void *rt_malloc(rt_size_t size)
                           (rt_uint32_t)((rt_uint8_t *)mem + SIZEOF_STRUCT_MEM),
                           (rt_uint32_t)(mem->next - ((rt_uint8_t *)mem - heap_ptr))));
 
-            RT_OBJECT_HOOK_CALL(rt_malloc_hook,
-                                (((void *)((rt_uint8_t *)mem + SIZEOF_STRUCT_MEM)), size));
+            RT_OBJECT_HOOK_CALL(rt_malloc_hook, (((void *)((rt_uint8_t *)mem + SIZEOF_STRUCT_MEM)), size));
 
             /* return the memory data except mem struct */
             return (rt_uint8_t *)mem + SIZEOF_STRUCT_MEM;
@@ -411,8 +401,7 @@ void *rt_realloc(void *rmem, rt_size_t newsize)
 
     rt_sem_take(&heap_sem, RT_WAITING_FOREVER);
 
-    if ((rt_uint8_t *)rmem < (rt_uint8_t *)heap_ptr ||
-        (rt_uint8_t *)rmem >= (rt_uint8_t *)heap_end)
+    if ((rt_uint8_t *)rmem < (rt_uint8_t *)heap_ptr || (rt_uint8_t *)rmem >= (rt_uint8_t *)heap_end)
     {
         /* illegal memory */
         rt_sem_release(&heap_sem);
@@ -512,14 +501,13 @@ void rt_free(void *rmem)
 
     if (rmem == RT_NULL)
         return;
+        
     RT_ASSERT((((rt_uint32_t)rmem) & (RT_ALIGN_SIZE - 1)) == 0);
-    RT_ASSERT((rt_uint8_t *)rmem >= (rt_uint8_t *)heap_ptr &&
-              (rt_uint8_t *)rmem < (rt_uint8_t *)heap_end);
+    RT_ASSERT((rt_uint8_t *)rmem >= (rt_uint8_t *)heap_ptr && (rt_uint8_t *)rmem < (rt_uint8_t *)heap_end);
 
     RT_OBJECT_HOOK_CALL(rt_free_hook, (rmem));
 
-    if ((rt_uint8_t *)rmem < (rt_uint8_t *)heap_ptr ||
-        (rt_uint8_t *)rmem >= (rt_uint8_t *)heap_end)
+    if ((rt_uint8_t *)rmem < (rt_uint8_t *)heap_ptr || (rt_uint8_t *)rmem >= (rt_uint8_t *)heap_end)
     {
         RT_DEBUG_LOG(RT_DEBUG_MEM, ("illegal memory\n"));
 
@@ -561,9 +549,7 @@ void rt_free(void *rmem)
 }
 
 #ifdef RT_MEM_STATS
-void rt_memory_info(rt_uint32_t *total,
-                    rt_uint32_t *used,
-                    rt_uint32_t *max_used)
+void rt_memory_info(rt_uint32_t *total, rt_uint32_t *used, rt_uint32_t *max_used)
 {
     if (total != RT_NULL)
         *total = mem_size_aligned;
