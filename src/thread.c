@@ -417,8 +417,7 @@ rt_err_t rt_thread_yield(void)
     thread = rt_current_thread;
 
     /* if the thread stat is READY and on ready queue list */
-    if (thread->stat == RT_THREAD_READY &&
-        thread->tlist.next != thread->tlist.prev)
+    if (thread->stat == RT_THREAD_READY && thread->tlist.next != thread->tlist.prev)
     {
         /* remove thread from thread list */
         rt_list_remove(&(thread->tlist));
