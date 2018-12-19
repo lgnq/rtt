@@ -44,7 +44,7 @@ extern volatile rt_uint8_t rt_interrupt_nest;
 extern rt_ubase_t __rt_ffs(rt_ubase_t value);
 
 rt_list_t rt_thread_priority_table[RT_THREAD_PRIORITY_MAX];
-struct rt_thread *rt_current_thread;
+rt_thread_t rt_current_thread;
 
 rt_uint8_t rt_current_priority;
 
@@ -60,7 +60,7 @@ rt_uint32_t rt_thread_ready_priority_group;
 rt_list_t rt_thread_defunct;
 
 #ifdef RT_USING_HOOK
-static void (*rt_scheduler_hook)(struct rt_thread *from, struct rt_thread *to);
+static void (*rt_scheduler_hook)(rt_thread_t from, rt_thread_t to);
 
 /**
  * @addtogroup Hook
@@ -74,7 +74,7 @@ static void (*rt_scheduler_hook)(struct rt_thread *from, struct rt_thread *to);
  *
  * @param hook the hook function
  */
-void rt_scheduler_sethook(void (*hook)(struct rt_thread *from, struct rt_thread *to))
+void rt_scheduler_sethook(void (*hook)(rt_thread_t from, rt_thread_t to))
 {
     rt_scheduler_hook = hook;
 }
@@ -83,7 +83,7 @@ void rt_scheduler_sethook(void (*hook)(struct rt_thread *from, struct rt_thread 
 #endif
 
 #ifdef RT_USING_OVERFLOW_CHECK
-static void _rt_scheduler_stack_check(struct rt_thread *thread)
+static void _rt_scheduler_stack_check(rt_thread_t thread)
 {
     RT_ASSERT(thread != RT_NULL);
 
@@ -148,7 +148,7 @@ void rt_system_scheduler_init(void)
  */
 void rt_system_scheduler_start(void)
 {
-    register struct rt_thread *to_thread;
+    register rt_thread_t to_thread;
     register rt_ubase_t highest_ready_priority;
 
 #if RT_THREAD_PRIORITY_MAX > 32
@@ -184,8 +184,8 @@ void rt_system_scheduler_start(void)
 void rt_schedule(void)
 {
     rt_base_t level;
-    struct rt_thread *to_thread;
-    struct rt_thread *from_thread;
+    rt_thread_t to_thread;
+    rt_thread_t from_thread;
 
     /* disable interrupt */
     level = rt_hw_interrupt_disable();
@@ -253,7 +253,7 @@ void rt_schedule(void)
  * @param thread the thread to be inserted
  * @note Please do not invoke this function in user application.
  */
-void rt_schedule_insert_thread(struct rt_thread *thread)
+void rt_schedule_insert_thread(rt_thread_t thread)
 {
     register rt_base_t temp;
 
@@ -298,7 +298,7 @@ void rt_schedule_insert_thread(struct rt_thread *thread)
  *
  * @note Please do not invoke this function in user application.
  */
-void rt_schedule_remove_thread(struct rt_thread *thread)
+void rt_schedule_remove_thread(rt_thread_t thread)
 {
     register rt_base_t temp;
 
