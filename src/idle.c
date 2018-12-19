@@ -50,7 +50,7 @@ static rt_uint8_t rt_thread_stack[IDLE_THREAD_STACK_SIZE];
 extern rt_list_t rt_thread_defunct;
 
 #ifdef RT_USING_IDLE_HOOK
-static void (*rt_thread_idle_hook)();
+static void (*rt_thread_idle_hook)(void);
 
 /**
  * @ingroup Hook
@@ -104,9 +104,7 @@ void rt_thread_idle_excute(void)
         if (_has_defunct_thread())
         {
             /* get defunct thread */
-            thread = rt_list_entry(rt_thread_defunct.next,
-                                   struct rt_thread,
-                                   tlist);
+            thread = rt_list_entry(rt_thread_defunct.next, struct rt_thread, tlist);
 
             /* remove defunct thread */
             rt_list_remove(&(thread->tlist));
@@ -170,14 +168,7 @@ static void rt_thread_idle_entry(void *parameter)
 void rt_thread_idle_init(void)
 {
     /* initialize thread */
-    rt_thread_init(&idle,
-                   "tidle",
-                   rt_thread_idle_entry,
-                   RT_NULL,
-                   &rt_thread_stack[0],
-                   sizeof(rt_thread_stack),
-                   RT_THREAD_PRIORITY_MAX - 1,
-                   32);
+    rt_thread_init(&idle, "tidle", rt_thread_idle_entry, RT_NULL, &rt_thread_stack[0], sizeof(rt_thread_stack), RT_THREAD_PRIORITY_MAX - 1, 32);
 
     /* startup */
     rt_thread_startup(&idle);
@@ -187,7 +178,6 @@ void rt_thread_idle_init(void)
  * @ingroup Thread
  *
  * This function will get the handler of the idle thread.
- *
  */
 rt_thread_t rt_thread_idle_gethandler(void)
 {
