@@ -56,7 +56,7 @@ static rt_uint8_t timer_thread_stack[RT_TIMER_THREAD_STACK_SIZE];
 #ifdef RT_USING_HOOK
 extern void (*rt_object_take_hook)(struct rt_object *object);
 extern void (*rt_object_put_hook)(struct rt_object *object);
-static void (*rt_timer_timeout_hook)(struct rt_timer *timer);
+static void (*rt_timer_timeout_hook)(rt_timer_t timer);
 
 /**
  * @addtogroup Hook
@@ -70,7 +70,7 @@ static void (*rt_timer_timeout_hook)(struct rt_timer *timer);
  *
  * @param hook the hook function
  */
-void rt_timer_timeout_sethook(void (*hook)(struct rt_timer *timer))
+void rt_timer_timeout_sethook(void (*hook)(rt_timer_t timer))
 {
     rt_timer_timeout_hook = hook;
 }
@@ -104,7 +104,7 @@ static void _rt_timer_init(rt_timer_t timer, void (*timeout)(void *parameter), v
 /* the fist timer always in the last row */
 static rt_tick_t rt_timer_list_next_timeout(rt_list_t timer_list[])
 {
-    struct rt_timer *timer;
+    rt_timer_t timer;
 
     if (rt_list_isempty(&timer_list[RT_TIMER_SKIP_LIST_LEVEL - 1]))
         return RT_TICK_MAX;
@@ -125,7 +125,7 @@ rt_inline void _rt_timer_remove(rt_timer_t timer)
 }
 
 #if RT_DEBUG_TIMER
-static int rt_timer_count_height(struct rt_timer *timer)
+static int rt_timer_count_height(rt_timer_t timer)
 {
     int i, cnt = 0;
 
@@ -144,7 +144,7 @@ void rt_timer_dump(rt_list_t timer_heads[])
 
     for (list = timer_heads[RT_TIMER_SKIP_LIST_LEVEL - 1].next; list != &timer_heads[RT_TIMER_SKIP_LIST_LEVEL - 1]; list = list->next)
     {
-        struct rt_timer *timer = rt_list_entry(list, struct rt_timer, row[RT_TIMER_SKIP_LIST_LEVEL - 1]);
+        rt_timer_t timer = rt_list_entry(list, struct rt_timer, row[RT_TIMER_SKIP_LIST_LEVEL - 1]);
         rt_kprintf("%d", rt_timer_count_height(timer));
     }
     rt_kprintf("\n");
@@ -220,10 +220,10 @@ rt_err_t rt_timer_detach(rt_timer_t timer)
  */
 rt_timer_t rt_timer_create(const char *name, void (*timeout)(void *parameter), void *parameter, rt_tick_t time, rt_uint8_t flag)
 {
-    struct rt_timer *timer;
+    rt_timer_t timer;
 
     /* allocate a object */
-    timer = (struct rt_timer *)rt_object_allocate(RT_Object_Class_Timer, name);
+    timer = (rt_timer_t)rt_object_allocate(RT_Object_Class_Timer, name);
     if (timer == RT_NULL)
     {
         return RT_NULL;
@@ -319,7 +319,7 @@ rt_err_t rt_timer_start(rt_timer_t timer)
     {
         for (; row_head[row_lvl] != timer_list[row_lvl].prev; row_head[row_lvl]  = row_head[row_lvl]->next)
         {
-            struct rt_timer *t;
+            rt_timer_t t;
             rt_list_t *p = row_head[row_lvl]->next;
 
             /* fix up the entry pointer */
@@ -459,7 +459,7 @@ rt_err_t rt_timer_control(rt_timer_t timer, rt_uint8_t cmd, void *arg)
  */
 void rt_timer_check(void)
 {
-    struct rt_timer *t;
+    rt_timer_t t;
     rt_tick_t current_tick;
     register rt_base_t level;
 
@@ -534,7 +534,7 @@ void rt_soft_timer_check(void)
 {
     rt_tick_t current_tick;
     rt_list_t *n;
-    struct rt_timer *t;
+    rt_timer_t t;
 
     RT_DEBUG_LOG(RT_DEBUG_TIMER, ("software timer check enter\n"));
 
