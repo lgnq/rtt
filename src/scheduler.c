@@ -231,8 +231,7 @@ void rt_schedule(void)
 
             if (rt_interrupt_nest == 0)
             {
-                rt_hw_context_switch((rt_uint32_t)&from_thread->sp,
-                                     (rt_uint32_t)&to_thread->sp);
+                rt_hw_context_switch((rt_uint32_t)&from_thread->sp, (rt_uint32_t)&to_thread->sp);
             }
             else
             {
@@ -285,6 +284,7 @@ void rt_schedule_insert_thread(struct rt_thread *thread)
 #if RT_THREAD_PRIORITY_MAX > 32
     rt_thread_ready_table[thread->number] |= thread->high_mask;
 #endif
+
     rt_thread_ready_priority_group |= thread->number_mask;
 
     /* enable interrupt */
