@@ -797,6 +797,7 @@ enum rt_device_class_type
 #define RT_DEVICE_CTRL_RTC_GET_ALARM    0x12            /**< get alarm */
 #define RT_DEVICE_CTRL_RTC_SET_ALARM    0x13            /**< set alarm */
 
+typedef struct rt_device *rt_device_t;
 /**
  * Device structure
  */
@@ -825,7 +826,6 @@ struct rt_device
 
     void                     *user_data;                /**< device private data */
 };
-typedef struct rt_device *rt_device_t;
 
 /**
  * block device geometry structure
