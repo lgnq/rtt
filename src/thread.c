@@ -93,7 +93,7 @@ void rt_thread_inited_sethook(void (*hook)(rt_thread_t thread))
 
 void rt_thread_exit(void)
 {
-    struct rt_thread *thread;
+    rt_thread_t thread;
     register rt_base_t level;
 
     /* get current thread */
@@ -127,7 +127,7 @@ void rt_thread_exit(void)
     rt_schedule();
 }
 
-static rt_err_t _rt_thread_init(struct rt_thread *thread,
+static rt_err_t _rt_thread_init(rt_thread_t       thread,
                                 const char       *name,
                                 void (*entry)(void *parameter),
                                 void             *parameter,
@@ -203,7 +203,7 @@ static rt_err_t _rt_thread_init(struct rt_thread *thread,
  *
  * @return the operation status, RT_EOK on OK, -RT_ERROR on error
  */
-rt_err_t rt_thread_init(struct rt_thread *thread,
+rt_err_t rt_thread_init(rt_thread_t       thread,
                         const char       *name,
                         void (*entry)(void *parameter),
                         void             *parameter,
@@ -337,10 +337,10 @@ rt_thread_t rt_thread_create(const char *name,
                              rt_uint8_t  priority,
                              rt_uint32_t tick)
 {
-    struct rt_thread *thread;
+    rt_thread_t thread;
     void *stack_start;
 
-    thread = (struct rt_thread *)rt_object_allocate(RT_Object_Class_Thread, name);
+    thread = (rt_thread_t )rt_object_allocate(RT_Object_Class_Thread, name);
     if (thread == RT_NULL)
         return RT_NULL;
 
@@ -408,7 +408,7 @@ rt_err_t rt_thread_delete(rt_thread_t thread)
 rt_err_t rt_thread_yield(void)
 {
     register rt_base_t level;
-    struct rt_thread *thread;
+    rt_thread_t thread;
 
     /* disable interrupt */
     level = rt_hw_interrupt_disable();
@@ -449,7 +449,7 @@ rt_err_t rt_thread_yield(void)
 rt_err_t rt_thread_sleep(rt_tick_t tick)
 {
     register rt_base_t temp;
-    struct rt_thread *thread;
+    rt_thread_t thread;
 
     /* disable interrupt */
     temp = rt_hw_interrupt_disable();
@@ -659,9 +659,9 @@ rt_err_t rt_thread_resume(rt_thread_t thread)
  */
 void rt_thread_timeout(void *parameter)
 {
-    struct rt_thread *thread;
+    rt_thread_t thread;
 
-    thread = (struct rt_thread *)parameter;
+    thread = (rt_thread_t)parameter;
 
     /* thread check */
     RT_ASSERT(thread != RT_NULL);
