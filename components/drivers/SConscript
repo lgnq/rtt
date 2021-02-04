@@ -1,14 +1,14 @@
-# for module compiling
 import os
-from building import *
 
-cwd  = GetCurrentDir()
-objs = []
-list = os.listdir(cwd)
+src   = [Glob('*.c')]
+src  += [Glob('*.s')]
 
-for d in list:
-    path = os.path.join(cwd, d)
-    if os.path.isfile(os.path.join(path, 'SConscript')):
-        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+inc   = [
+    os.path.abspath('.'),
+    os.path.abspath('./Inc'),
+    os.path.abspath('./include')
+]
 
-Return('objs')
+group = {'src' : src, 'inc' : inc}
+
+Return('group')

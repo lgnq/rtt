@@ -30,6 +30,7 @@
 
 /* include rtconfig header to import configuration */
 #include <rtconfig.h>
+#include <rtdef.h>
 
 #ifdef __cplusplus
 extern "C" {
