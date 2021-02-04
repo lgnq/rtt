@@ -12,9 +12,7 @@
  * 2012-04-15     Bernard      enable components_init.
  */
 
-#include <rtthread.h>
-#include "platform.h"
-#include "led.h"
+#include "application.h"
 
 #ifdef RT_USING_FINSH
 #include <shell.h>
