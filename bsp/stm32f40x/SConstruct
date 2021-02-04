@@ -42,19 +42,18 @@ for root, dirs, files in os.walk(str(Dir('#'))):
             inc += temp['inc']          
 
 # include rtt
-temp = SConscript(RTT_ROOT + '/SConscript', variant_dir = 'build/rtt/', duplicate = 0)
+temp = SConscript(RTT_ROOT + '/src/SConscript', variant_dir = 'build/rtt/', duplicate = 0)
 src += temp['src']
 inc += temp['inc']   
 
-#include libcpu
-temp = SConscript(RTT_ROOT + '/libcpu/SConscript', variant_dir = 'build/libcpu/', duplicate = 0)
+temp = SConscript(RTT_ROOT + '/inc/SConscript', variant_dir = 'build/inc/', duplicate = 0)
 src += temp['src']
-inc += temp['inc']   
+inc += temp['inc']  
 
-#include rtt component
-temp = SConscript(RTT_ROOT + '/components/SConscript', variant_dir = 'build/components/' + 'component', duplicate = 0)
+#include cpu
+temp = SConscript(RTT_ROOT + '/cpu/SConscript', variant_dir = 'build/cpu/', duplicate = 0)
 src += temp['src']
-inc += temp['inc']   
+inc += temp['inc']    
 
 # Building
 out = env.Program(TARGET, src, CPPPATH = inc)
