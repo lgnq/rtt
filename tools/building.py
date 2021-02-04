@@ -83,7 +83,7 @@ class Win32Spawn:
                 try:
                     os.remove(f)
                 except Exception as e:
-                    print 'Error removing file: %s' % e
+                    print('Error removing file: %s' % e)
                     return -1
             return 0
 
@@ -104,8 +104,8 @@ class Win32Spawn:
         try:
             proc = subprocess.Popen(cmdline, env=_e, shell=False)
         except Exception as e:
-            print 'Error in calling:\n%s' % cmdline
-            print 'Exception: %s: %s' % (e, os.strerror(e.errno))
+            print('Error in calling:\n%s' % cmdline)
+            print('Exception: %s: %s' % (e, os.strerror(e.errno)))
             return e.errno
         finally:
             os.environ['PATH'] = old_path
@@ -162,7 +162,7 @@ def PrepareBuilding(env, root_directory, has_libcpu=False, remove_components = [
 
     # parse rtconfig.h to get used component
     PreProcessor = PatchedPreProcessor()
-    f = file('rtconfig.h', 'r')
+    f = open('rtconfig.h', 'r')
     contents = f.read()
     f.close()
     PreProcessor.process_contents(contents)
@@ -244,15 +244,15 @@ def PrepareBuilding(env, root_directory, has_libcpu=False, remove_components = [
         # --target will change the toolchain settings which clang-analyzer is
         # depend on
         if GetOption('clang-analyzer'):
-            print '--clang-analyzer cannot be used with --target'
+            print('--clang-analyzer cannot be used with --target')
             sys.exit(1)
 
         SetOption('no_exec', 1)
         try:
             rtconfig.CROSS_TOOL, rtconfig.PLATFORM = tgt_dict[tgt_name]
         except KeyError:
-            print 'Unknow target: %s. Avaible targets: %s' % \
-                    (tgt_name, ', '.join(tgt_dict.keys()))
+            print('Unknow target: %s. Avaible targets: %s' % \
+                    (tgt_name, ', '.join(tgt_dict.keys())))
             sys.exit(1)
     elif (GetDepend('RT_USING_NEWLIB') == False and GetDepend('RT_USING_NOLIBC') == False) \
         and rtconfig.PLATFORM == 'gcc':
@@ -491,7 +491,7 @@ def DefineGroup(name, src, depend, **parameters):
     # check whether to clean up library
     if GetOption('cleanlib') and os.path.exists(os.path.join(group['path'], GroupLibFullName(name, Env))):
         if group['src'] != []:
-            print 'Remove library:', GroupLibFullName(name, Env)
+            print('Remove library:', GroupLibFullName(name, Env))
             do_rm_file(os.path.join(group['path'], GroupLibFullName(name, Env)))
 
     # check whether exist group library
@@ -562,7 +562,7 @@ def BuildLibInstallAction(target, source, env):
         if Group['name'] == lib_name:
             lib_name = GroupLibFullName(Group['name'], env)
             dst_name = os.path.join(Group['path'], lib_name)
-            print 'Copy %s => %s' % (lib_name, dst_name)
+            print('Copy %s => %s' % (lib_name, dst_name))
             do_copy_file(lib_name, dst_name)
             break
 
@@ -652,7 +652,7 @@ def EndBuilding(target, program = None):
                 if template:
                     MDK5Project('project.uvprojx', Projects)
                 else:
-                    print 'No template project file found.'
+                    print('No template project file found.')
 
     if GetOption('target') == 'mdk4':
         from keil import MDK4Project
@@ -856,12 +856,12 @@ def MakeCopy(program):
         dst = src.replace(RTT_ROOT, '')
         if dst[0] == os.sep or dst[0] == '/':
             dst = dst[1:]
-        print '=> ', dst
+        print('=> ', dst)
         dst = os.path.join(target_path, dst)
         do_copy_file(src, dst)
 
     # copy tools directory
-    print "=>  tools"
+    print("=>  tools")
     do_copy_folder(os.path.join(RTT_ROOT, "tools"), os.path.join(target_path, "tools"))
     do_copy_file(os.path.join(RTT_ROOT, 'AUTHORS'), os.path.join(target_path, 'AUTHORS'))
     do_copy_file(os.path.join(RTT_ROOT, 'COPYING'), os.path.join(target_path, 'COPYING'))
@@ -904,12 +904,12 @@ def MakeCopyHeader(program):
         dst = src.replace(RTT_ROOT, '')
         if dst[0] == os.sep or dst[0] == '/':
             dst = dst[1:]
-        print '=> ', dst
+        print('=> ', dst)
         dst = os.path.join(target_path, dst)
         do_copy_file(src, dst)
 
     # copy tools directory
-    print "=>  tools"
+    print("=>  tools")
     do_copy_folder(os.path.join(RTT_ROOT, "tools"), os.path.join(target_path, "tools"))
     do_copy_file(os.path.join(RTT_ROOT, 'AUTHORS'), os.path.join(target_path, 'AUTHORS'))
     do_copy_file(os.path.join(RTT_ROOT, 'COPYING'), os.path.join(target_path, 'COPYING'))
