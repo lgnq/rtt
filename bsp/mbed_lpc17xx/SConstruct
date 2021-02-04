@@ -50,7 +50,7 @@ temp = SConscript(RTT_ROOT + '/inc/SConscript', variant_dir = 'build/inc/', dupl
 src += temp['src']
 inc += temp['inc']  
 
-#include libcpu
+#include cpu
 temp = SConscript(RTT_ROOT + '/cpu/SConscript', variant_dir = 'build/cpu/', duplicate = 0)
 src += temp['src']
 inc += temp['inc']    
