@@ -1,11 +1,11 @@
 import os
 
-src   = [Glob('src/*.c')]
+src   = [Glob('*.c')]
 src  += [Glob('*.s')]
 
 inc   = [
     os.path.abspath('.'),
-    os.path.abspath('./Inc'),
+    os.path.abspath('./inc'),
     os.path.abspath('./include')
 ]
 

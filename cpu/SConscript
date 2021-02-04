@@ -20,7 +20,7 @@ if rtconfig.PLATFORM == 'cl':
 if rtconfig.PLATFORM == 'mingw':
 	src = Glob(path + '/*.c')
 
-inc = [RTT_ROOT + '/libcpu/' + rtconfig.ARCH + '/' + rtconfig.CPU, RTT_ROOT + '/libcpu/' + rtconfig.ARCH + '/common']
+inc = [RTT_ROOT + '/cpu/' + rtconfig.ARCH + '/' + rtconfig.CPU, RTT_ROOT + '/cpu/' + rtconfig.ARCH + '/common']
 group = {'src' : src, 'inc' : inc}
 
 Return('group')
