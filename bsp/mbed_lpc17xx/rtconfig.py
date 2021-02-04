@@ -1,9 +1,9 @@
 import os
 
 # toolchains options
-ARCH='arm'
-CPU='cortex-m3'
-CROSS_TOOL='gcc'
+ARCH = 'arm'
+CPU  = 'cortex-m3'
+CROSS_TOOL = 'gcc'
 
 if os.getenv('RTT_CC'):
 	CROSS_TOOL = os.getenv('RTT_CC')
@@ -22,22 +22,23 @@ BUILD = 'debug'
 
 if PLATFORM == 'gcc':
     # toolchains
-    PREFIX = 'arm-none-eabi-'
-    CC  = PREFIX + 'gcc'
-    CXX = PREFIX + 'g++'
-    AS = PREFIX + 'gcc'
-    AR = PREFIX + 'ar'
-    LINK = PREFIX + 'gcc'
-    TARGET_EXT = 'elf'
-    SIZE = PREFIX + 'size'
+    PREFIX  = 'arm-none-eabi-'
+    CC      = PREFIX + 'gcc'
+    CXX     = PREFIX + 'g++'
+    AS      = PREFIX + 'gcc'
+    AR      = PREFIX + 'ar'
+    LINK    = PREFIX + 'gcc'
+    SIZE    = PREFIX + 'size'
     OBJDUMP = PREFIX + 'objdump'
-    OBJCPY = PREFIX + 'objcopy'
+    OBJCPY  = PREFIX + 'objcopy'
+
+    TARGET_EXT = 'elf'
 
     DEVICE = ' -mcpu=cortex-m3 -mthumb'
     CFLAGS = DEVICE
     CXXFLAGS = CFLAGS
     AFLAGS = ' -c' + DEVICE + ' -x assembler-with-cpp'
-    LFLAGS = DEVICE + ' -Wl,--gc-sections,-Map=mbed.map,-cref,-u,Reset_Handler -T rtthread-lpc17xx.ld'
+    LFLAGS = DEVICE + ' -Wl,--gc-sections,-Map=mbed.map,-cref,-u,Reset_Handler -T lpc17xx.ld'
 
     CPATH = ''
     LPATH = ''
