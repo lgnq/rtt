@@ -51,11 +51,6 @@ temp = SConscript(RTT_ROOT + '/libcpu/SConscript', variant_dir = 'build/libcpu/'
 src += temp['src']
 inc += temp['inc']   
 
-#include rtt component
-temp = SConscript(RTT_ROOT + '/components/SConscript', variant_dir = 'build/components/' + 'component', duplicate = 0)
-src += temp['src']
-inc += temp['inc']   
-
 # Building
 out = env.Program(TARGET, src, CPPPATH = inc)
 env.SideEffect(PROJECT+'.map', out)
