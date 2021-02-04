@@ -12,20 +12,17 @@
 #include <rthw.h>
 #include <rtthread.h>
 
-/**
- * @addtogroup LPC176x
- */
+#include "board.h"
+#include "application.h"
 
-/*@{*/
-#include <board.h>
-extern int rt_application_init(void);
-
-#ifdef __CC_ARM
-extern int Image$$RW_IRAM1$$ZI$$Limit;
-#elif __ICCARM__
-#pragma section="HEAP"
-#else
-extern int __bss_end;
+#ifdef RT_USING_HEAP
+	#ifdef __CC_ARM
+		extern int Image$$RW_IRAM1$$ZI$$Limit;
+	#elif __ICCARM__
+		#pragma section="HEAP"
+	#else
+		extern int __bss_end;
+	#endif
 #endif
 
 /**
@@ -82,5 +79,3 @@ int main(void)
 
 	return 0;
 }
-
-/*@}*/
